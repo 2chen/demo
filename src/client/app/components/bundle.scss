@@ -5,6 +5,9 @@ div#impress .step {
   height: 100vh;
   padding: 0;
 }
+#demo.past, #demo.future {
+  opacity: 1;
+}
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 

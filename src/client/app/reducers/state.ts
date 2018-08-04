@@ -1,7 +1,14 @@
-import {AppState, BackendState, FrontendState} from "./index";
+import {AppState, BackendState, FrontendState} from "./redux";
 
 const frontend: FrontendState = {
-  user: "yichenxing"
+  user: "yichenxing",
+  searchControlState: {
+    type: "both",
+    mediaFilters: ["comment", "article", "podcast"],
+    goodnessSlider: 50,
+    newnessSlider: 50,
+    lengthSlider: 50,
+  }
 };
 
 const backend: BackendState = {
@@ -9,14 +16,25 @@ const backend: BackendState = {
     yichenxing: {
       name: "Yichen Xing",
       description: "Hacker with a heart of bitcoin",
-      subscriptions: ["c/thestartup"],
-      publications: [],
-      posts: [
-        "rep/pitching-for-your-first-check",
-        "highlight/pitching-for-your-first-check",
-        "comment/pitching-for-your-first-check",
-        "comment/raising-capital",
+      subscriptions: [
+        {noun: "reader", of: "c/thestartup"},
+        {noun: "fan", of: "u/timferriss"},
+        {noun: "crippling addict", of: "c/coffee"}
       ],
+      publications: [{noun: "curator", of: "c/erasmus"}],
+      posts: [
+        "p/rep/pitching-for-your-first-check",
+        "p/highlight/pitching-for-your-first-check",
+        "p/comment/pitching-for-your-first-check",
+        "p/comment/raising-capital",
+        "p/rep/the-art-of-the-lazy",
+      ],
+      quirks: {
+        reputation: "Rascal",
+        hearts: 0,
+        heartsGiven: 2,
+        verified: true,
+      },
     },
     annmiuroko: {
       name: "Ann Miuro-Ko",
@@ -24,6 +42,12 @@ const backend: BackendState = {
       subscriptions: [],
       publications: [],
       posts: [],
+      quirks: {
+        reputation: "Virtuoso",
+        hearts: 1,
+        heartsGiven: 0,
+        verified: false,
+      },
     },
     timferriss: {
       name: "Tim Ferriss",
@@ -31,17 +55,29 @@ const backend: BackendState = {
       subscriptions: [],
       publications: [],
       posts: [],
+      quirks: {
+        reputation: "Guru",
+        hearts: 1,
+        heartsGiven: 0,
+        verified: false,
+      },
     },
     parulsingh: {
       name: "Parul Singh",
       description: "early stage VC @fcollective. lover of startups, UX+ product management. forever founder. proud investor @pillpack @workjam @asklorem @adhawk @smallsforsmalls",
       subscriptions: [],
-      publications: ["c/thestartup"],
+      publications: [{noun: "contributor", of: "c/thestartup"}],
       posts: [
-        "p/raising-capital",
-        "p/pitching-for-your-first-check",
-        "p/the-art-of-the-lazy"
+        "p/publish/raising-capital",
+        "p/publish/pitching-for-your-first-check",
+        "p/publish/the-art-of-the-lazy"
       ],
+      quirks: {
+        reputation: "Sage",
+        hearts: 1,
+        heartsGiven: 0,
+        verified: false,
+      },
     }
   },
   collections: {
@@ -50,10 +86,21 @@ const backend: BackendState = {
       description: "Yichen's Personal Collection",
       posts: [],
     },
+    erasmus: {
+      name: "erasm.us",
+      description: "hottest monk/startup since 1536",
+      posts: [
+
+      ],
+    },
     thestartup: {
       name: "The Startup",
       description: "Medium’s largest entrepreneurship publication followed by 296,127+ people.",
-      posts: ["p/r/aising-capital", "p/pitching-for-your-first-check", "p/the-art-of-the-lazy"],
+      posts: [
+        "p/publish/raising-capital",
+        "p/publish/pitching-for-your-first-check",
+        "p/publish/the-art-of-the-lazy"
+      ],
     },
     womenofsiliconvalley: {
       name: "Women of Silicon Valley",
@@ -74,15 +121,15 @@ const backend: BackendState = {
   },
   posts: {
     // the startup posts
-    "raising-capital": {
+    "publish/raising-capital": {
       medium: "m/https://medium.com/swlh/raising-capital-for-the-first-time-heres-how-to-do-it-successfully-c07ccbb4196",
       type: "publish",
     },
-    "pitching-for-your-first-check": {
+    "publish/pitching-for-your-first-check": {
       medium: "m/https://medium.com/swlh/pitching-for-your-first-check-here-are-five-brilliant-women-investors-you-should-know-d7985cf9b9ac",
       type: "publish",
     },
-    "the-art-of-the-lazy": {
+    "publish/the-art-of-the-lazy": {
       medium: "m/https://medium.com/swlh/the-art-of-the-lazy-product-manager-fc6e5385a00b",
       type: "publish",
     },
@@ -90,6 +137,7 @@ const backend: BackendState = {
     "rep/pitching-for-your-first-check": {
       medium: "m/https://medium.com/swlh/pitching-for-your-first-check-here-are-five-brilliant-women-investors-you-should-know-d7985cf9b9ac",
       type: "rep",
+      metadata: "rep",
     },
     "highlight/pitching-for-your-first-check": {
       medium: "m/https://medium.com/swlh/pitching-for-your-first-check-here-are-five-brilliant-women-investors-you-should-know-d7985cf9b9ac",
@@ -105,6 +153,11 @@ const backend: BackendState = {
       type: "comment",
     },
     // the art of the lazy product manager: conclusion
+    "rep/the-art-of-the-lazy": {
+      medium: "m/https://medium.com/swlh/the-art-of-the-lazy-product-manager-fc6e5385a00b",
+      type: "rep",
+      metadata: "heart",
+    },
   },
   media: {
     "https://medium.com/swlh/raising-capital-for-the-first-time-heres-how-to-do-it-successfully-c07ccbb4196": {
@@ -115,6 +168,7 @@ const backend: BackendState = {
       creator: "u/parulsingh",
       links: [],
       posts: ["comment/raising-capital"],
+      type: "article",
     },
     "https://medium.com/swlh/pitching-for-your-first-check-here-are-five-brilliant-women-investors-you-should-know-d7985cf9b9ac": {
       title: "Pitching for Your First Check? Here are Five Brilliant Women Investors You Should Know",
@@ -124,6 +178,7 @@ const backend: BackendState = {
       creator: "u/parulsingh",
       links: ["u/jennyfielding", "u/sorayadarabi", "u/nimikatragadda", "u/nicolestata", "u/elizabethyin"],
       posts: ["rep/pitching-for-your-first-check", "highlight/pitching-for-your-first-check", "comment/pitching-for-your-first-check"],
+      type: "article",
     },
     "https://medium.com/swlh/the-art-of-the-lazy-product-manager-fc6e5385a00b": {
       title: "The Art of the Lazy Product Manager",
@@ -133,6 +188,7 @@ const backend: BackendState = {
       creator: "u/parulsingh",
       links: [],
       posts: [],
+      type: "article",
     },
     "https://medium.com/women-of-silicon-valley/10-questions-with-ann-miura-ko-1aad12e00d07": {
       title: "10 Questions with Ann Miura-Ko",
@@ -142,6 +198,7 @@ const backend: BackendState = {
       creator: "c/womenofsiliconvalley",
       links: ["u/annmiuroko"],
       posts: [],
+      type: "article",
     },
   }
 };

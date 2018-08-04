@@ -1,0 +1,15 @@
+language: node_js
+
+notifications:
+  email:
+  - georgio.wan@gmail.com
+
+node_js:
+  - 7.6.0
+  
+npm:
+  - 4
+
+before_install:
+  - npm install yarn -g
+  - yarn install

@@ -1,12 +1,12 @@
 import * as React from "react";
 import {Provider} from "react-redux";
 import {createStore} from "redoodle";
-import {reducers} from "./reducers";
-import {INITIAL_STATE} from "./reducers/state";
-
 const {Impress, Step} = require("react-impressjs");
-import "./components/bundle.scss";
+import {reducers} from "./reducers/redux";
+import {INITIAL_STATE} from "./reducers/state";
 import {ErasmusApp} from "./components/ErasmusApp";
+
+import "./components/bundle.scss";
 
 const DEFAULT_DURATION = 250;
 
@@ -21,7 +21,6 @@ interface RootProps {
 
 export class Root extends React.Component<any, RootProps> {
   private impress: any;
-  private keybindingsDisabled = false;
 
   constructor(props: any) {
     super(props);
@@ -29,11 +28,6 @@ export class Root extends React.Component<any, RootProps> {
   }
 
   componentDidMount() {
-    window.addEventListener("resize", () => {
-      this.impress = undefined;
-      this.setState({width: undefined, height: undefined});
-    });
-
     window.addEventListener("hashchange", () => {
       const match = window.location.hash.match(/^#\/?([^?]*)\??(.*)/) || [];
       this.setState({path: match[1], demoPath: match[2]});
@@ -45,22 +39,10 @@ export class Root extends React.Component<any, RootProps> {
       return;
     }
 
-    console.log("wtf");
     this.impress = impress;
-    const originalGoto = this.impress.goto;
-    this.impress.goto = (...args: any[]) => {
-      originalGoto.apply(this.impress, args);
-      const id = window.location.hash.match(/^#\/?([^?]*)/)![1];
-      this.keybindingsDisabled = id === "demo";
-    };
-
-    // //TODO:
-    // setTimeout(() => {
-    //   this.impress.next();
-    // });
 
     document.addEventListener("keydown", (e) => {
-      if (!this.keybindingsDisabled && e.keyCode >= 32 && e.keyCode <= 40) {
+      if (true || this.state.path !== "demo" && e.keyCode >= 32 && e.keyCode <= 40) {
         switch (e.keyCode) {
           case 37: // Left
             this.impress.prev();
@@ -106,11 +88,18 @@ export class Root extends React.Component<any, RootProps> {
           }}
         >
           <Step
-            id="introduction"
+            id="prologue"
             duration={DEFAULT_DURATION}
             data={{width, height}}
           >
-            Introduction
+            Prologue
+          </Step>
+          <Step
+            id="demo-preview"
+            duration={DEFAULT_DURATION}
+            data={{y: height, width, height}}
+          >
+            Demo
           </Step>
           <Step
             id="demo"
@@ -118,7 +107,8 @@ export class Root extends React.Component<any, RootProps> {
             data={{y: height, width, height}}
           >
             <ErasmusApp
-              {...this.state}
+              previewing={this.state.path !== "demo"}
+              demoPath={this.state.demoPath}
             />
           </Step>
           <Step
@@ -126,7 +116,14 @@ export class Root extends React.Component<any, RootProps> {
             duration={DEFAULT_DURATION}
             data={{y: height! * 2, width, height}}
           >
-            Conclusion
+            Demo hand waving
+          </Step>
+          <Step
+            id="epilogue"
+            duration={DEFAULT_DURATION}
+            data={{y: height! * 3, width, height}}
+          >
+            Epilogue
           </Step>
         </Impress>
       );
