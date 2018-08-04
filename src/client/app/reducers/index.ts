@@ -1,5 +1,4 @@
 import {combineReducers, TypedReducer} from "redoodle";
-import {INITIAL_BACKEND_STATE} from "./state";
 
 export type Locator = string;
 export type Image = string;

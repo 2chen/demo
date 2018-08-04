@@ -86,6 +86,7 @@
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
+    "@blueprintjs/core": "^3.2.0",
     "axios": "^0.16.2",
     "body-parser": "^1.18.2",
     "bunyan": "^1.8.12",

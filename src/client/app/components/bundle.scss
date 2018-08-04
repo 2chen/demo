@@ -2,4 +2,12 @@
 @import './common/base/global';
 @import './common/header';
 @import './home/home';
-@import './about/about';
+@import './ErasmusApp';
+
+@import '~react-impressjs/styles/impress-demo.css';
+@import '~react-impressjs/styles/react-impressjs.css';
+div#impress .step {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+}
