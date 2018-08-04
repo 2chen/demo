@@ -1,9 +1,3 @@
-@import './common/base/variables';
-@import './common/base/global';
-@import './common/header';
-@import './home/home';
-@import './ErasmusApp';
-
 @import '~react-impressjs/styles/impress-demo.css';
 @import '~react-impressjs/styles/react-impressjs.css';
 div#impress .step {
@@ -11,3 +5,11 @@ div#impress .step {
   height: 100vh;
   padding: 0;
 }
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+
+@import './common/base/variables';
+@import './common/base/global';
+@import './common/header';
+@import './home/home';
+@import './ErasmusApp';

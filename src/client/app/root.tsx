@@ -25,7 +25,7 @@ export class Root extends React.Component<any, RootProps> {
 
   constructor(props: any) {
     super(props);
-    this.state = {path: "", demoPath: ""};
+    this.state = {};
   }
 
   componentDidMount() {
@@ -45,6 +45,7 @@ export class Root extends React.Component<any, RootProps> {
       return;
     }
 
+    console.log("wtf");
     this.impress = impress;
     const originalGoto = this.impress.goto;
     this.impress.goto = (...args: any[]) => {
@@ -52,10 +53,11 @@ export class Root extends React.Component<any, RootProps> {
       const id = window.location.hash.match(/^#\/?([^?]*)/)![1];
       this.keybindingsDisabled = id === "demo";
     };
-    //TODO:
-    setTimeout(() => {
-      this.impress.next();
-    });
+
+    // //TODO:
+    // setTimeout(() => {
+    //   this.impress.next();
+    // });
 
     document.addEventListener("keydown", (e) => {
       if (!this.keybindingsDisabled && e.keyCode >= 32 && e.keyCode <= 40) {

@@ -2,6 +2,7 @@ import * as React from "react";
 import {AppState} from "../reducers";
 import {connect} from "react-redux";
 import {Dispatch} from "redoodle";
+import {Button} from "@blueprintjs/core";
 
 interface ErasmusAppProps extends AppState {
   demoPath?: string;
@@ -32,7 +33,7 @@ class UnconnectedErasmusApp extends React.Component<ErasmusAppProps, ErasmusAppS
       console.log(this.props.backend);
       return (
         <div>
-          yichen's page
+          <Button>yichen's page</Button>
         </div>
       );
     } else if (path.startsWith("p")) {

@@ -32,6 +32,7 @@ const rules = [
     include: srcPath,
     use: ['babel-loader', 'ts-loader'],
   },
+  { test: /\.(eot|ttf|woff)$/, loader: "file-loader" }
 ];
 const webpackConfig = {
   context: srcPath,
