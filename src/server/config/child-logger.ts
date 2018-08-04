@@ -1,31 +1,31 @@
-import * as bunyan from 'bunyan'
-import * as RotatingFileStream from 'bunyan-rotating-file-stream'
+import * as bunyan from "bunyan";
+import * as RotatingFileStream from "bunyan-rotating-file-stream";
 
-export const getLogger = (appname, errorLogFile, appLogFile) => {
+export const getLogger = (appname: any, errorLogFile: any, appLogFile: any) => {
   const appLogs = bunyan.createLogger({
     name: appname,
     streams: [
       {
-        level: 'info',
+        level: "info",
         stream: new RotatingFileStream({
           path: appLogFile,
-          period: '1d',
+          period: "1d",
           rotateExisting: true,
-          threshold: '1g',
+          threshold: "1g",
           gzip: true,
         }),
       },
       {
-        level: 'error',
+        level: "error",
         stream: new RotatingFileStream({
           path: errorLogFile,
-          period: '1d',
+          period: "1d",
           rotateExisting: true,
-          threshold: '1g',
+          threshold: "1g",
           gzip: true,
         }),
       },
     ],
-  })
-  return appLogs
-}
+  });
+  return appLogs;
+};

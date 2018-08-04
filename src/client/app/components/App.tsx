@@ -1,20 +1,20 @@
-import * as React from 'react'
-import Header from './common/Header'
+import * as React from "react";
+import Header from "./common/Header";
 
-interface AppSate {
-  counter: number
+interface AppState {
+  counter: number;
 }
 
-class App extends React.Component<{}, AppSate > {
-  constructor() {
-    super()
+export class App extends React.Component<{}, AppState > {
+  constructor(props: any) {
+    super(props);
     this.state = {
       counter: 0,
-    }
+    };
   }
-  public componetWillMount() {
-    fetch('/v1/api/counter').
-    then((data: any) => this.setState(data))
+  public componentWillMount() {
+    fetch("/v1/api/counter").
+    then((data: any) => this.setState(data));
   }
   public render() {
     return (
@@ -23,8 +23,6 @@ class App extends React.Component<{}, AppSate > {
         <p>{this.state.counter}</p>
         {this.props.children}
       </div>
-    )
+    );
   }
 }
-
-export default App

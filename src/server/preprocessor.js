@@ -1,4 +1,3 @@
-
 const tsc = require('typescript');
 const tsConfig = require('./tsconfig.json');
 
