@@ -77,10 +77,10 @@ function getFeed(backend: BackendState, frontend: FrontendState, target: string 
           .map(thing => thing ? (thing as CollectionLike).posts : []))));
       postLocators.push(...user.posts);
       enrichedPosts = uniq(postLocators).map(locator => enrichPost(backend, locator));
-      if (target[1] === frontend.user) {
-        name = "Your Feed";
+      if (`${target[0]}/${target[1]}` === frontend.user) {
+        name = "Your Stories";
       } else {
-        name = `${user.name}'s Stream`;
+        name = `${user.name.split(" ")[0]}'s Stream`;
       }
       break;
     case "c":
@@ -123,7 +123,7 @@ export const getRealBreadcrumbs = createSelector([getBackendState, getCurrent, g
     const user = getObject(backend, userLoc) as User;
     const breadcrumbs: BreadCrumb[] = stack.slice(0);
     if (!breadcrumbs.length) {
-      breadcrumbs.push(Object.assign({}, user, {name: "Your Feed", locator: `/${userLoc}`}));
+      breadcrumbs.push(Object.assign({}, user, {name: "Your Stories", locator: `/${userLoc}`}));
     }
 
     let index = breadcrumbs.findIndex(bc => bc.locator === current.locator);

@@ -7,6 +7,15 @@
   transform: scale(.8);
 }
 
+$top-bar-background: #233240;
+$content-background: #f4f4f6;
+$breadcrumb-height: 40px;
+$info-width: 300px;
+$black: #111111;
+$mainColor: #464d51;
+$highlight: #98ffdc;
+$vote-control-width: 200px;
+
 div.app-container {
   transition: all .5s;
 
@@ -21,32 +30,74 @@ div.app-container {
   font-size: initial;
   line-height: initial;
 
+  color: #464d51;
+
   div.top-bar {
     width: 100%;
     height: 100px;
-    background: #28cb75;
+    background: $top-bar-background;
+    position: relative;
 
     div.logo {
-      span.front {
+      position: absolute;
+      bottom: 40px;
+      color: white;
+      font-size: 30px;
+      font-family: 'Leitura News Roman 1';
+      width: 100%;
+      text-align: center;
 
+      span.front {
+        color: $highlight
       }
       span.back {
-
+        margin-left: 1px
       }
     }
 
-    div.breadcrumbs {
-      display: flex;
+    div.breadcrumb-background {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: $content-background;
+      height: $breadcrumb-height;
 
-      div.breadcrumb {
-        max-width: 200px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
+      div.breadcrumbs {
+        height: 100%;
+        padding-top: 15px;
 
-      div.breadcrumb:last-child {
-        max-width: none;
+        max-width: calc(100% - #{$info-width});
+        display: flex;
+        border-bottom: 1px solid rgba(0,0,0,0.15);
+
+        div.breadcrumb {
+          max-width: 150px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          margin-left: 10px;
+        }
+
+        div.breadcrumb a {
+          color: #9ba5af;
+          text-decoration: none;
+        }
+
+        div.breadcrumb.active {
+          max-width: none;
+          font-weight: bold;
+          a { color: $black; }
+          border-bottom: 2px solid $highlight;
+        }
+
+        div.vote-controls {
+          margin-left: auto;
+          width: $vote-control-width;
+          margin-top: -10px;
+          height: 40px;
+          background: $highlight;
+          overflow: hidden;
+        }
       }
     }
   }
@@ -56,20 +107,27 @@ div.app-container {
     flex: 1;
 
     display: flex;
+    background: $content-background;
 
     div.controls {
       width: 200px;
       height: 100%;
-      background: #EEDC94;
+      padding: 20px 10px 10px;
+
+      div.feed-controls {
+      }
     }
 
     div.content {
       flex: 1;
       height: 100%;
-      background: #9ba5af;
+      position: relative;
 
-      overflow: auto;
-      padding: 20px;
+      div.content-scroller {
+        height: 100%;
+        overflow: auto;
+        padding: 20px;
+      }
 
       div.post-preview {
         display: flex;
@@ -77,23 +135,101 @@ div.app-container {
         border: 1px solid black;
         border-radius: 5px;
         margin-bottom: 10px;
+
+        div.bottom {
+          display: flex;
+
+          div.preview-sizer {
+            padding: 10px;
+
+            div.preview {
+              width: 100px;
+              height: 100px;
+              overflow: hidden;
+              border-radius: 50%;
+
+              img {
+                position: relative;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+                display: block;
+                max-width: 200%;
+                max-height: 200%;
+                height: auto;
+              }
+            }
+          }
+        }
       }
 
       div.media-viewer {
-        img {
-          max-width: 100%;
+        div.media-controls {
+          position: absolute;
+          width: 250px;
+          height: 60px;
+          right: 20px;
+          background: white;
+
+          display: flex;
+          div {
+            width: 50px;
+            display: flex;
+            flex-direction: column;
+          }
         }
 
-        h4, figure {
-          display: none;
+        div.title {
+          font-size: 24px;
+        }
+
+        div.media-body {
+          font-family: 'Leitura News Roman 1';
+          line-height: 1.58;
+
+          p {
+            margin-top: 20px;
+          }
+
+          strong {
+            font-family: 'Leitura News Roman 4';
+            font-size: 18px;
+          }
+
+          img {
+            max-width: 100%;
+          }
+
+          h4, figure {
+            display: none;
+          }
         }
       }
     }
 
     div.info {
-      width: 300px;
-      height: 100%;
-      background: #E4C652;
+      background: $content-background;
+      width: $info-width;
+      top: -$breadcrumb-height;
+      height: calc(100% + #{$breadcrumb-height});
+      position: relative;
+
+      padding: 20px;
+
+      div.picture {
+        position: absolute;
+        width: 80px;
+        top: -50px;
+        left: 200px;
+
+        img {
+          background: white;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          box-shadow: 0 0 0 2px $content-background;
+        }
+      }
     }
   }
 

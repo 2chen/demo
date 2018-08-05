@@ -36,6 +36,7 @@ const backend: BackendState = {
         heartsGiven: 2,
         verified: true,
       },
+      icon: "yichenxing.png",
     },
     annmiuroko: {
       name: "Ann Miuro-Ko",

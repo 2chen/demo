@@ -2,6 +2,9 @@ import * as React from "react";
 import {BreadCrumb, Collection, EnrichedPost, User} from "../reducers/redux";
 import {articles} from "../reducers/articles";
 import {Feed} from "./ErasmusApp";
+import {InputGroup} from "@blueprintjs/core";
+import {UnfurlResult} from "../reducers/dispatcher";
+import {dispatcher} from "../root";
 
 interface OmniViewerProps extends BreadCrumb {
   type: string;
@@ -48,15 +51,18 @@ export class OmniViewer extends React.PureComponent<OmniViewerProps> {
     return (
       <div className="omni-viewer">
         <div className="controls">
+          { this.props.type === "p" && ("More from " + this.props.feed.name) }
           { this.props.type === "p"
             ? this.renderMiniFeed()
             : <FeedControls /> }
         </div>
 
         <div className="content">
+          <div className="content-scroller">
           { this.props.type === "p"
             ? <MediaViewer {...(this.props.object as EnrichedPost)} />
             : this.renderFeed() }
+          </div>
         </div>
 
         <div className="info">
@@ -70,8 +76,14 @@ export class OmniViewer extends React.PureComponent<OmniViewerProps> {
 class FeedControls extends React.PureComponent {
   render() {
     return (
-      <div>
-        <div>search goes here</div>
+      <div className="feed-controls">
+        <InputGroup
+          disabled={false}
+          large={false}
+          leftIcon="search"
+          onChange={undefined}
+          placeholder="Search"
+        />
         <div>media filter goes here</div>
         <div>nerd controls go here</div>
         <div>collections go here</div>
@@ -80,12 +92,28 @@ class FeedControls extends React.PureComponent {
   }
 }
 
-class MediaViewer extends React.PureComponent<EnrichedPost> {
+interface Unfurlable {
+  unfurl?: UnfurlResult;
+}
+
+class MediaViewer extends React.PureComponent<EnrichedPost, Unfurlable> {
+  constructor(props: EnrichedPost) {
+    super(props);
+    this.state = {};
+  }
+
+  componentWillMount() {
+    dispatcher.unfurl(this.props.instance.url).then(unfurl => this.setState({unfurl}));
+  }
+
   render() {
     return (
-      <div
-        className="media-viewer"
-        dangerouslySetInnerHTML={{__html: articles[this.props.instance.url]}}>
+      <div className="media-viewer">
+        <div className="title">{this.props.instance.name}</div>
+        <div
+          className="media-body"
+          dangerouslySetInnerHTML={{__html: articles[this.props.instance.url]}}>
+        </div>
       </div>
     )
   }
@@ -95,7 +123,16 @@ interface MiniPreviewProps extends EnrichedPost {
   selected: boolean;
 }
 
-class MiniPreview extends React.PureComponent<MiniPreviewProps> {
+class MiniPreview extends React.PureComponent<MiniPreviewProps, Unfurlable> {
+  constructor(props: MiniPreviewProps) {
+    super(props);
+    this.state = {};
+  }
+
+  componentWillMount() {
+    dispatcher.unfurl(this.props.instance.url).then(unfurl => this.setState({unfurl}));
+  }
+
   render() {
     const href = `#/demo?/${this.props.locator}`;
     return (
@@ -109,21 +146,40 @@ class MiniPreview extends React.PureComponent<MiniPreviewProps> {
   }
 }
 
-class PostPreview extends React.PureComponent<EnrichedPost> {
+class PostPreview extends React.PureComponent<EnrichedPost, Unfurlable> {
+  constructor(props: EnrichedPost) {
+    super(props);
+    this.state = {};
+  }
+
+  componentWillMount() {
+    dispatcher.unfurl(this.props.instance.url).then(unfurl => this.setState({unfurl}));
+  }
+
   render() {
     const href = `#/demo?/${this.props.locator}`;
     return (
       <div className="post-preview" key={this.props.locator}>
         <div className="authorship">
-          <span>{this.props.instance.creator}</span> posted to <div>{this.props.instance.source}</div>
+          <span>{this.props.instance.creator}</span> posted to <span>{this.props.instance.source}</span>
         </div>
-        <a href={href}>{this.props.instance.name}</a>
-        <a href={href}>{this.props.instance.description}</a>
-        <div>date goes here</div>
+        <div className="bottom">
+          <div className="preview-sizer">
+            <div className="preview">
+              <img className="preview" src={this.state.unfurl
+              && this.state.unfurl.ogp.ogImage[0] && this.state.unfurl.ogp.ogImage[0].url} />
+            </div>
+          </div>
+          <div className="right">
+            <a href={href}>{this.props.instance.name}</a>
+            <a href={href}>{this.props.instance.description}</a>
+          </div>
+        </div>
       </div>
     )
   }
 }
+
 
 class UserInfo extends React.PureComponent<User> {
   //pic
@@ -135,7 +191,9 @@ class UserInfo extends React.PureComponent<User> {
   render() {
     return (
       <div className="user-info">
-        <div>picture goes here</div>
+        <div className="picture">
+          <img src={this.props.icon} />
+        </div>
         <div>{this.props.name}</div>
         <div>{this.props.description}</div>
         <div>badges go here</div>
@@ -146,14 +204,23 @@ class UserInfo extends React.PureComponent<User> {
   }
 }
 
-class MediaInfo extends React.PureComponent<EnrichedPost> {
+class MediaInfo extends React.PureComponent<EnrichedPost, Unfurlable> {
+  constructor(props: EnrichedPost) {
+    super(props);
+    this.state = {};
+  }
+
+  componentWillMount() {
+    dispatcher.unfurl(this.props.instance.url).then(unfurl => this.setState({unfurl}));
+  }
+
   render() {
     return (
       <div className="media-info">
-        <div>source goes here</div>
-        <div>views goes here</div>
-        <div>likes go here</div>
-        <div>hearts go here</div>
+        <div className="picture">
+          <img src={this.state.unfurl && this.state.unfurl.other.maskIcon} />
+        </div>
+        <div>From Medium</div>
         <div>author goes here</div>
         <div>linked people go here</div>
         <div>comments go here</div>

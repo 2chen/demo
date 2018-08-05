@@ -3,7 +3,7 @@ const apiRouter = express.Router();
 
 var unfurl = require('unfurl.js');
 
-apiRouter.use("/api/unfurl", (req, res) => {
+apiRouter.use("/v1/api/unfurl", (req, res) => {
   unfurl(req.body.url)
     .then(result => res.send(result))
     .catch(console.error);

@@ -6,21 +6,24 @@ import * as helmet from "helmet";
 import * as onHeaders from "on-headers";
 import * as path from "path";
 import "./config/axios-interceptor";
-import { appLogs, loggerMiddleware } from "./config/logger";
+import {appLogs, loggerMiddleware} from "./config/logger";
 import expressStaticGzip from "./middlewares/compression";
 // import session from "./middlewares/session";
 import api from "./routes/api";
-import { pageRouter } from "./routes/index";
+import {pageRouter} from "./routes";
 
 interface ErrorConstructor {
   new(message?: string, status?: number): any;
+
   (message?: string): string;
+
   (status?: number): number;
 }
+
 declare const ErrorWrapper: ErrorConstructor;
 
 const removeEtag = (res) => {
-  onHeaders(res, function() {
+  onHeaders(res, function () {
     this.removeHeader("ETag");
   });
 };
@@ -46,7 +49,7 @@ app.get("*", expressStaticGzip(path.join(__dirname), {
 }));
 // app.use(session);
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use((req, res, next) => {
   removeEtag(res);
