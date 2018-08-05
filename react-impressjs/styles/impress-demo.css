@@ -246,7 +246,7 @@ a:focus {
     scalable way of styling, but most of steps have quite a custom look
     and typography tricks here and there, so they had to be styled separately.
 
-    First is the title step with a big <h1> (no room for padding) and some
+    First is the name step with a big <h1> (no room for padding) and some
     3D positioning along Z axis.
 */
 
@@ -341,7 +341,7 @@ a:focus {
     -ms-transform:     translateY(-10px);
     -o-transform:      translateY(-10px);
     transform:         translateY(-10px);
-    
+
     -webkit-transition-delay: 1.25s;
     -moz-transition-delay:    1.25s;
     -ms-transition-delay:     1.25s;

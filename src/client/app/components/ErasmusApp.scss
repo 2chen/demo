@@ -18,10 +18,37 @@ div.app-container {
   display: flex;
   flex-direction: column;
 
+  font-size: initial;
+  line-height: initial;
+
   div.top-bar {
     width: 100%;
     height: 100px;
     background: #28cb75;
+
+    div.logo {
+      span.front {
+
+      }
+      span.back {
+
+      }
+    }
+
+    div.breadcrumbs {
+      display: flex;
+
+      div.breadcrumb {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      div.breadcrumb:last-child {
+        max-width: none;
+      }
+    }
   }
 
   div.omni-viewer {
@@ -41,17 +68,25 @@ div.app-container {
       height: 100%;
       background: #9ba5af;
 
-      font-size: initial;
-      line-height: initial;
-
       overflow: auto;
       padding: 20px;
 
       div.post-preview {
         display: flex;
+        flex-direction: column;
         border: 1px solid black;
         border-radius: 5px;
         margin-bottom: 10px;
+      }
+
+      div.media-viewer {
+        img {
+          max-width: 100%;
+        }
+
+        h4, figure {
+          display: none;
+        }
       }
     }
 

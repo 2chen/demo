@@ -1,7 +1,8 @@
 import {AppState, BackendState, FrontendState} from "./redux";
 
 const frontend: FrontendState = {
-  user: "yichenxing",
+  user: "u/yichenxing",
+  breadcrumbs: [],
   searchControlState: {
     type: "both",
     mediaFilters: ["comment", "article", "podcast"],
@@ -113,9 +114,13 @@ const backend: BackendState = {
       posts: [],
     },
     startups: {
+      name: "Startups",
+      description: "",
       posts: [],
     },
     technology: {
+      name: "Technology",
+      description: "",
       posts: [],
     },
   },
@@ -161,7 +166,7 @@ const backend: BackendState = {
   },
   media: {
     "https://medium.com/swlh/raising-capital-for-the-first-time-heres-how-to-do-it-successfully-c07ccbb4196": {
-      title: "Raising Capital For The First Time? Here’s How To Do It Successfully",
+      name: "Raising Capital For The First Time? Here’s How To Do It Successfully",
       description: "6 important questions every entrepreneur should answer, whether you’re pre-product, or bootstrapped and profitable.",
       url: "https://medium.com/swlh/raising-capital-for-the-first-time-heres-how-to-do-it-successfully-c07ccbb4196",
       source: "c/thestartup",
@@ -171,7 +176,7 @@ const backend: BackendState = {
       type: "article",
     },
     "https://medium.com/swlh/pitching-for-your-first-check-here-are-five-brilliant-women-investors-you-should-know-d7985cf9b9ac": {
-      title: "Pitching for Your First Check? Here are Five Brilliant Women Investors You Should Know",
+      name: "Pitching for Your First Check? Here are Five Brilliant Women Investors You Should Know",
       description: "Early investors are rare, ones who add value even rarer.",
       url: "https://medium.com/swlh/pitching-for-your-first-check-here-are-five-brilliant-women-investors-you-should-know-d7985cf9b9ac",
       source: "c/thestartup",
@@ -181,7 +186,7 @@ const backend: BackendState = {
       type: "article",
     },
     "https://medium.com/swlh/the-art-of-the-lazy-product-manager-fc6e5385a00b": {
-      title: "The Art of the Lazy Product Manager",
+      name: "The Art of the Lazy Product Manager",
       description: "Why high growth startups need to build less, not more.",
       url: "https://medium.com/swlh/the-art-of-the-lazy-product-manager-fc6e5385a00b",
       source: "c/thestartup",
@@ -191,7 +196,7 @@ const backend: BackendState = {
       type: "article",
     },
     "https://medium.com/women-of-silicon-valley/10-questions-with-ann-miura-ko-1aad12e00d07": {
-      title: "10 Questions with Ann Miura-Ko",
+      name: "10 Questions with Ann Miura-Ko",
       description: "Cofounding Partner at Floodgate",
       url: "https://medium.com/women-of-silicon-valley/10-questions-with-ann-miura-ko-1aad12e00d07",
       source: "c/medium",

@@ -12,9 +12,12 @@ export interface CollectionLike {
   posts: Locator[];
 }
 
-export interface User extends CollectionLike {
+export interface Artifact {
   name: string;
   description: string;
+}
+
+export interface User extends Artifact, CollectionLike {
   icon?: Image;
   subscriptions: Relationship[];
   publications: Relationship[];
@@ -26,9 +29,7 @@ export interface User extends CollectionLike {
   }
 }
 
-export interface Collection extends CollectionLike {
-  name?: string;
-  description?: string;
+export interface Collection extends Artifact, CollectionLike {
 }
 
 export interface Post {
@@ -37,17 +38,16 @@ export interface Post {
   metadata?: any;
 }
 
-export interface Medium extends CollectionLike {
+export interface Medium extends Artifact, CollectionLike {
   type: MediaType;
   source: Locator;
-  title: string;
-  description: string;
   url: string;
   creator: Locator;
   links: Locator[];
 }
 
-export interface EnrichedPost extends Post {
+export interface EnrichedPost extends Artifact, Post {
+  name: string;
   locator: string;
   instance: Medium;
 }
@@ -59,8 +59,8 @@ export interface BackendState {
   media: {[id: string]: Medium};
 }
 
-export interface BreadcrumbState {
-
+export interface BreadCrumb extends Artifact {
+  locator: Locator;
 }
 
 export type MediaType = "comment" | "article" | "podcast";
@@ -77,6 +77,7 @@ export interface SearchControlState {
 
 export interface FrontendState {
   user: Locator;
+  breadcrumbs: BreadCrumb[];
   searchControlState: SearchControlState;
 }
 

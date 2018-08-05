@@ -1,16 +1,19 @@
 import * as React from "react";
 import {Provider} from "react-redux";
 import {createStore} from "redoodle";
+
 const {Impress, Step} = require("react-impressjs");
 import {reducers} from "./reducers/redux";
 import {INITIAL_STATE} from "./reducers/state";
 import {ErasmusApp} from "./components/ErasmusApp";
 
 import "./components/bundle.scss";
+import {ErasmusDispatcher} from "./reducers/dispatcher";
 
 const DEFAULT_DURATION = 250;
 
 const store = createStore(reducers, INITIAL_STATE);
+export const dispatcher = new ErasmusDispatcher(store);
 
 interface RootProps {
   width?: number;
