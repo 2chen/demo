@@ -82,7 +82,7 @@ table {
     want to leave anybody behind.
 */
 body {
-    font-family: 'PT Sans', sans-serif;
+    font-family: 'Adelle Sans Regular';
     min-height: 740px;
 
     background: rgb(215, 215, 215);
@@ -103,26 +103,26 @@ i, em { font-style: italic }
 /*
     ... and give links a nice look.
 */
-a {
-    color: inherit;
-    text-decoration: none;
-    padding: 0 0.1em;
-    background: rgba(255,255,255,0.5);
-    text-shadow: -1px -1px 2px rgba(100,100,100,0.9);
-    border-radius: 0.2em;
+/*a {*/
+/*color: inherit;*/
+/*text-decoration: none;*/
+/*padding: 0 0.1em;*/
+/*background: rgba(255,255,255,0.5);*/
+/*text-shadow: -1px -1px 2px rgba(100,100,100,0.9);*/
+/*border-radius: 0.2em;*/
 
-    -webkit-transition: 0.5s;
-    -moz-transition:    0.5s;
-    -ms-transition:     0.5s;
-    -o-transition:      0.5s;
-    transition:         0.5s;
-}
+/*-webkit-transition: 0.5s;*/
+/*-moz-transition:    0.5s;*/
+/*-ms-transition:     0.5s;*/
+/*-o-transition:      0.5s;*/
+/*transition:         0.5s;*/
+/*}*/
 
-a:hover,
-a:focus {
-    background: rgba(255,255,255,1);
-    text-shadow: -1px -1px 2px rgba(100,100,100,0.5);
-}
+/*a:hover,*/
+/*a:focus {*/
+/*background: rgba(255,255,255,1);*/
+/*text-shadow: -1px -1px 2px rgba(100,100,100,0.5);*/
+/*}*/
 
 /*
     Because the main point behind the impress.js demo is to demo impress.js
@@ -137,7 +137,7 @@ a:focus {
 */
 
 .fallback-message {
-    font-family: sans-serif;
+    font-family: 'Adelle Sans Regular';
     line-height: 1.3;
 
     width: 780px;
@@ -175,7 +175,7 @@ a:focus {
     -o-box-sizing:      border-box;
     box-sizing:         border-box;
 
-    font-family: 'PT Serif', georgia, serif;
+    font-family: 'Adelle Sans Regular';
     font-size: 48px;
     line-height: 1.5;
 }
@@ -221,7 +221,7 @@ a:focus {
     color: rgb(102, 102, 102);
     text-shadow: 0 2px 2px rgba(0, 0, 0, .1);
 
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: 'Adelle Sans Regular';
     font-size: 30px;
     line-height: 36px;
     letter-spacing: -1px;
@@ -246,7 +246,7 @@ a:focus {
     scalable way of styling, but most of steps have quite a custom look
     and typography tricks here and there, so they had to be styled separately.
 
-    First is the name step with a big <h1> (no room for padding) and some
+    First is the title step with a big <h1> (no room for padding) and some
     3D positioning along Z axis.
 */
 
@@ -448,7 +448,7 @@ a:focus {
     -moz-transform:    translateZ(40px);
     -ms-transform:     translateZ(40px);
     -o-transform:      translateZ(40px);
-     transform:        translateZ(40px);
+    transform:        translateZ(40px);
 
     -webkit-transition: 0.5s;
     -moz-transition:    0.5s;
@@ -682,7 +682,7 @@ a:focus {
 
     If you want to know more about `pointer-events` here are some docs:
     https://developer.mozilla.org/en/CSS/pointer-events
-
+in
     There is one very important thing to notice about this workaround - it makes
     everything 'unclickable' except what's in #impress element.
 

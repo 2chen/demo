@@ -2,7 +2,7 @@ import * as React from "react";
 import {BreadCrumb, Collection, EnrichedPost, User} from "../reducers/redux";
 import {articles} from "../reducers/articles";
 import {Feed} from "./ErasmusApp";
-import {InputGroup} from "@blueprintjs/core";
+import {Button, ButtonGroup, Icon, InputGroup, Popover} from "@blueprintjs/core";
 import {UnfurlResult} from "../reducers/dispatcher";
 import {dispatcher} from "../root";
 
@@ -96,22 +96,61 @@ interface Unfurlable {
   unfurl?: UnfurlResult;
 }
 
-class MediaViewer extends React.PureComponent<EnrichedPost, Unfurlable> {
+interface MediaViewerState extends Unfurlable {
+  selectionVisible: boolean;
+  right: number;
+  top: number;
+  text?: string;
+}
+
+class MediaViewer extends React.PureComponent<EnrichedPost, MediaViewerState> {
   constructor(props: EnrichedPost) {
     super(props);
-    this.state = {};
+    this.state = {selectionVisible: false, top: 0, right: 0};
   }
 
   componentWillMount() {
     dispatcher.unfurl(this.props.instance.url).then(unfurl => this.setState({unfurl}));
   }
 
+  private handleSelection = () => {
+    const selection = document.getSelection();
+    const mediaBody = document.getElementById("media-body");
+    const text = selection.toString();
+    if (mediaBody && mediaBody.contains(selection.baseNode) && text) {
+      const range = document.createRange();
+      range.setStart(selection.anchorNode, selection.anchorOffset);
+      range.setEnd(selection.focusNode, selection.focusOffset);
+      const {top, right} = range.getClientRects()[0];
+      this.setState({selectionVisible: true, top, right, text})
+    } else if (!text) {
+      this.setState({selectionVisible: false, top: 0, right: 0});
+    }
+  }
+
   render() {
     return (
       <div className="media-viewer">
-        <div className="title">{this.props.instance.name}</div>
         <div
-          className="media-body"
+          className="tagger"
+          style={{
+            opacity: this.state.selectionVisible ? 1 : 0,
+            top: this.state.top - 30,
+            left: this.state.right
+          }}
+        >
+          <Popover
+            content={(<div>yichen was here</div>)}
+          >
+            <ButtonGroup>
+              <Button className="item" icon="comment" />
+              <Button className="item" icon="tag" />
+              <Button className="item" icon="star" />
+            </ButtonGroup>
+          </Popover>
+        </div>
+        <div className="title">{this.props.instance.name}</div>
+        <div id="media-body" className="media-body" onClick={this.handleSelection}
           dangerouslySetInnerHTML={{__html: articles[this.props.instance.url]}}>
         </div>
       </div>

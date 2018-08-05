@@ -76,6 +76,7 @@ div.app-container {
           text-overflow: ellipsis;
           white-space: nowrap;
           margin-left: 10px;
+          padding: 0 2px;
         }
 
         div.breadcrumb a {
@@ -164,6 +165,24 @@ div.app-container {
       }
 
       div.media-viewer {
+        div.tagger {
+          position: fixed;
+          z-index: 100;
+
+          .item {
+            transition: all 0.25s;
+            opacity: 0.75;
+
+            &:hover {
+              background: $highlight;
+              opacity: 1;
+            }
+            svg {
+              color: $top-bar-background;
+            }
+          }
+        }
+
         div.media-controls {
           position: absolute;
           width: 250px;
