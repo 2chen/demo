@@ -10,11 +10,9 @@ interface TopBarProps extends BreadCrumb {
 
 export class UnconnectedTopBar extends React.PureComponent<TopBarProps> {
   render() {
+    console.log(this.props.breadcrumbs[0].locator)
     return (
       <div className="top-bar">
-        <div className="logo">
-          <span className="front">erasm</span><span className="back">us</span>
-        </div>
         <div className="breadcrumb-background">
           <div className="breadcrumbs">
             { this.props.breadcrumbs.map((breadcrumb, index) => {
@@ -26,11 +24,7 @@ export class UnconnectedTopBar extends React.PureComponent<TopBarProps> {
             }) }
 
             <div className="vote-controls">
-              <div><span>Views</span><span>1234</span></div>
-              <div><span>Reps</span><span>12</span></div>
-              <div><span>Hearts</span><span>2</span></div>
-              <div><span>Comments</span><span>3</span></div>
-              <div>tag icon</div>
+              <div><span>submit article</span></div>
             </div>
           </div>
         </div>

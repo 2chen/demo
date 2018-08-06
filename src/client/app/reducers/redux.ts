@@ -17,11 +17,15 @@ export interface Artifact {
   description: string;
 }
 
+export interface TypedArtifact extends Artifact {
+  artifactType: string;
+}
+
 export interface User extends Artifact, CollectionLike {
   icon?: Image;
   subscriptions: Relationship[];
   publications: Relationship[];
-  quirks: {
+  quirks?: {
     reputation: string;
     hearts: number;
     heartsGiven: number;
@@ -38,12 +42,26 @@ export interface Post {
   metadata?: any;
 }
 
+export interface Link {
+  locator: Locator;
+}
+
+export interface Tag extends Link {
+  selector: {
+    id: string;
+    path: number[];
+    position?: number[];
+  }
+}
+
+export type LinkLike = Link | Tag;
+
 export interface Medium extends Artifact, CollectionLike {
   type: MediaType;
   source: Locator;
   url: string;
   creator: Locator;
-  links: Locator[];
+  links: LinkLike[];
 }
 
 export interface EnrichedPost extends Artifact, Post {

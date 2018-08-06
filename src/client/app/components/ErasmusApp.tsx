@@ -29,12 +29,18 @@ class UnconnectedErasmusApp extends React.Component<Props> {
     return (
       <div className={`preview-pane ${this.props.previewing ? "previewing" : ""}`}>
         <div className="app-container">
-          <TopBar
-            name={name}
-            description={description}
-            locator={this.props.locator}
-          />
-          <OmniViewer name={name} description={description} {...this.props} />
+          <div className="logo">
+            <div className="front">erasm</div>
+            <div className="back">us</div>
+          </div>
+          <div className="width-limiter">
+            <TopBar
+              name={name}
+              description={description}
+              locator={this.props.locator}
+            />
+            <OmniViewer name={name} description={description} {...this.props} />
+          </div>
         </div>
       </div>
     );

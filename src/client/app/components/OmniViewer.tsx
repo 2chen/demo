@@ -1,10 +1,12 @@
 import * as React from "react";
-import {BreadCrumb, Collection, EnrichedPost, User} from "../reducers/redux";
-import {articles} from "../reducers/articles";
+import {BreadCrumb, Collection, EnrichedPost, User, Tag, LinkLike} from "../reducers/redux";
 import {Feed} from "./ErasmusApp";
-import {Button, ButtonGroup, Icon, InputGroup, Popover} from "@blueprintjs/core";
+import {Button, ButtonGroup, InputGroup} from "@blueprintjs/core";
 import {UnfurlResult} from "../reducers/dispatcher";
 import {dispatcher} from "../root";
+import {MiniBadge} from "./MiniBadge";
+import {articles} from "../reducers/articles";
+import {MediaParser} from "./MediaParser";
 
 interface OmniViewerProps extends BreadCrumb {
   type: string;
@@ -13,19 +15,6 @@ interface OmniViewerProps extends BreadCrumb {
 }
 
 export class OmniViewer extends React.PureComponent<OmniViewerProps> {
-  private renderMiniFeed = () => {
-    return this.props.feed.posts.map(post => {
-      const selected = post.locator === this.props.locator;
-      return (
-        <MiniPreview
-          key={post.locator}
-          selected={selected}
-          {...post}
-        />
-      )
-    })
-  }
-
   private renderFeed = () => {
     return this.props.feed.posts.map(post => {
       return (
@@ -33,9 +22,9 @@ export class OmniViewer extends React.PureComponent<OmniViewerProps> {
           key={post.locator}
           {...post}
         />
-      )
+      );
     });
-  }
+  };
 
   private renderInfo = () => {
     if (this.props.type === "u") {
@@ -43,17 +32,16 @@ export class OmniViewer extends React.PureComponent<OmniViewerProps> {
     } else if (this.props.type === "p") {
       return <MediaInfo {...(this.props.object) as EnrichedPost} />;
     } else if (this.props.type === "c") {
-      return <div>collections info goes here</div>
+      return <div>collections info goes here</div>;
     }
-  }
+  };
 
   render() {
     return (
-      <div className="omni-viewer">
-        <div className="controls">
-          { this.props.type === "p" && ("More from " + this.props.feed.name) }
+      <div className="omni-viewer width-limited">
+        <div className="controls mini-feed">
           { this.props.type === "p"
-            ? this.renderMiniFeed()
+            ? <ArticleControls />
             : <FeedControls /> }
         </div>
 
@@ -88,7 +76,19 @@ class FeedControls extends React.PureComponent {
         <div>nerd controls go here</div>
         <div>collections go here</div>
       </div>
-    )
+    );
+  }
+}
+
+class ArticleControls extends React.PureComponent {
+  render() {
+    return (
+      <div className="feed-controls">
+        <div>toggle highlights</div>
+        <div>toggle tags</div>
+        <div>comments go here</div>
+      </div>
+    );
   }
 }
 
@@ -100,13 +100,16 @@ interface MediaViewerState extends Unfurlable {
   selectionVisible: boolean;
   right: number;
   top: number;
+  start: number;
+  end: number;
   text?: string;
+  anchorNode?: Node;
 }
 
 class MediaViewer extends React.PureComponent<EnrichedPost, MediaViewerState> {
   constructor(props: EnrichedPost) {
     super(props);
-    this.state = {selectionVisible: false, top: 0, right: 0};
+    this.state = {selectionVisible: false, start: 0, end: 0, top: 0, right: 0};
   }
 
   componentWillMount() {
@@ -119,13 +122,42 @@ class MediaViewer extends React.PureComponent<EnrichedPost, MediaViewerState> {
     const text = selection.toString();
     if (mediaBody && mediaBody.contains(selection.baseNode) && text) {
       const range = document.createRange();
+      const start = selection.anchorOffset, end = selection.focusOffset;
       range.setStart(selection.anchorNode, selection.anchorOffset);
       range.setEnd(selection.focusNode, selection.focusOffset);
       const {top, right} = range.getClientRects()[0];
-      this.setState({selectionVisible: true, top, right, text})
+      this.setState({selectionVisible: true, top, right, text, anchorNode: selection.anchorNode, start, end});
     } else if (!text) {
       this.setState({selectionVisible: false, top: 0, right: 0});
     }
+  };
+
+  private handleTag = () => {
+    if (!this.state.anchorNode) {
+      return;
+    }
+
+    const {start, end} = this.state;
+    console.log(JSON.stringify(this.getSelector(this.state.anchorNode, {
+      locator: "",
+      selector: {id: "", path: [], position: [start, end]}
+    })));
+  };
+
+  private getSelector(node: Node, tag: Tag): LinkLike {
+    if ((node as HTMLElement).id) {
+      (tag as Tag).selector.id = (node as HTMLElement).id;
+      return tag;
+    } else {
+      const siblings = node.parentNode!.childNodes;
+      for (let i = 0; i < siblings.length; i++) {
+        if (siblings.item(i) === node) {
+          tag.selector.path.unshift(i);
+          return this.getSelector(node.parentNode!, tag);
+        }
+      }
+    }
+    return {locator: tag.locator};
   }
 
   render() {
@@ -139,49 +171,18 @@ class MediaViewer extends React.PureComponent<EnrichedPost, MediaViewerState> {
             left: this.state.right
           }}
         >
-          <Popover
-            content={(<div>yichen was here</div>)}
-          >
-            <ButtonGroup>
-              <Button className="item" icon="comment" />
-              <Button className="item" icon="tag" />
-              <Button className="item" icon="star" />
-            </ButtonGroup>
-          </Popover>
+          <ButtonGroup>
+            <Button className="item" onClick={this.handleTag} icon="tag" />
+            <Button className="item" icon="comment" />
+            <Button className="item" icon="star" />
+          </ButtonGroup>
         </div>
         <div className="title">{this.props.instance.name}</div>
-        <div id="media-body" className="media-body" onClick={this.handleSelection}
-          dangerouslySetInnerHTML={{__html: articles[this.props.instance.url]}}>
+        <div id="media-body" className="media-body" onClick={this.handleSelection}>
+          <MediaParser post={this.props} html={articles[this.props.instance.url]} />
         </div>
       </div>
-    )
-  }
-}
-
-interface MiniPreviewProps extends EnrichedPost {
-  selected: boolean;
-}
-
-class MiniPreview extends React.PureComponent<MiniPreviewProps, Unfurlable> {
-  constructor(props: MiniPreviewProps) {
-    super(props);
-    this.state = {};
-  }
-
-  componentWillMount() {
-    dispatcher.unfurl(this.props.instance.url).then(unfurl => this.setState({unfurl}));
-  }
-
-  render() {
-    const href = `#/demo?/${this.props.locator}`;
-    return (
-      <div className="post-preview" key={this.props.locator}>
-        <div className="authorship">
-          <span>{this.props.instance.creator}</span> in <div>{this.props.instance.source}</div>
-        </div>
-        <a href={href}>{this.props.instance.name}</a>
-      </div>
-    )
+    );
   }
 }
 
@@ -199,26 +200,37 @@ class PostPreview extends React.PureComponent<EnrichedPost, Unfurlable> {
     const href = `#/demo?/${this.props.locator}`;
     return (
       <div className="post-preview" key={this.props.locator}>
-        <div className="authorship">
-          <span>{this.props.instance.creator}</span> posted to <span>{this.props.instance.source}</span>
-        </div>
-        <div className="bottom">
-          <div className="preview-sizer">
-            <div className="preview">
-              <img className="preview" src={this.state.unfurl
-              && this.state.unfurl.ogp.ogImage[0] && this.state.unfurl.ogp.ogImage[0].url} />
+        <div className="content">
+          <div className="authorship">
+            <MiniBadge locator={this.props.instance.creator} /> in <MiniBadge locator={this.props.instance.source} />
+          </div>
+          <div className="bottom">
+            <div className="preview-sizer">
+              <div className="preview">
+                <img className="preview" src={this.state.unfurl
+                && this.state.unfurl.ogp.ogImage[0] && this.state.unfurl.ogp.ogImage[0].url} />
+              </div>
+            </div>
+            <div className="title-description">
+              <div className="title">
+                <a href={href}>{this.props.instance.name}</a>
+              </div>
+              <div className="description">
+                <a href={href}>{this.props.instance.description}</a>
+              </div>
             </div>
           </div>
-          <div className="right">
-            <a href={href}>{this.props.instance.name}</a>
-            <a href={href}>{this.props.instance.description}</a>
-          </div>
+        </div>
+        <div className="preview-controls">
+          <div className="pin"><Button minimal={true} icon="pin" /></div>
+          <div><span>23</span><Button minimal={true} icon={<img className="icon" src="reputation.png" />} /></div>
+          <div><span>23</span><Button minimal={true} icon={<img className="icon" src="hearts.png" />} /></div>
+          <div><span>23</span><Button minimal={true} icon="comment" /></div>
         </div>
       </div>
-    )
+    );
   }
 }
-
 
 class UserInfo extends React.PureComponent<User> {
   //pic
@@ -228,14 +240,32 @@ class UserInfo extends React.PureComponent<User> {
   //latest starred post
 
   render() {
+    const editable = this.props.name === "Yichen Xing"; //lol
+    // const {reputation, hearts, heartsGiven, verified} = this.props.quirks;
+
     return (
       <div className="user-info">
         <div className="picture">
-          <img src={this.props.icon} />
+          <img src={this.props.icon || "anonymous.png"} />
         </div>
-        <div>{this.props.name}</div>
-        <div>{this.props.description}</div>
-        <div>badges go here</div>
+        <div className="name">{this.props.name}</div>
+        <div className="description">{this.props.description}</div>
+        <div className="quirks">
+          <table className="quirks">
+            <tbody>
+              <tr>
+                <th><img className="icon" src="reputation.png" /></th>
+                <th><img className="icon" src="hearts.png" /></th>
+                <th><img className="icon" src="hearts-given.png" /></th>
+              </tr>
+              <tr>
+                <td>46 reps</td>
+                <td>2 received</td>
+                <td>0 given</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div>relationships go here</div>
         <div>word cloud go here</div>
       </div>
@@ -259,11 +289,12 @@ class MediaInfo extends React.PureComponent<EnrichedPost, Unfurlable> {
         <div className="picture">
           <img src={this.state.unfurl && this.state.unfurl.other.maskIcon} />
         </div>
-        <div>From Medium</div>
-        <div>author goes here</div>
+        <div>From <MiniBadge locator={this.props.instance.source} /></div>
+        <div>By <MiniBadge locator={this.props.instance.creator} /></div>
+        <div>Linked collections go here</div>
         <div>linked people go here</div>
-        <div>comments go here</div>
+        <div>Linked media go here</div>
       </div>
-    )
+    );
   }
 }

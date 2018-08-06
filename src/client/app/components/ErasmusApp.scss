@@ -7,14 +7,17 @@
   transform: scale(.8);
 }
 
-$top-bar-background: #233240;
+$max-app-width: 1280px;
+$logo-background: #233240;
 $content-background: #f4f4f6;
 $breadcrumb-height: 40px;
-$info-width: 300px;
+$vote-control-width: 220px;
+$info-width: 280px;
 $black: #111111;
 $mainColor: #464d51;
 $highlight: #98ffdc;
-$vote-control-width: 200px;
+
+$top-bar-height: 110px;
 
 div.app-container {
   transition: all .5s;
@@ -24,42 +27,59 @@ div.app-container {
   height: 100%;
   width: 100%;
 
-  display: flex;
-  flex-direction: column;
-
   font-size: initial;
   line-height: initial;
 
+  background: $content-background;
   color: #464d51;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  div.width-limiter {
+    max-width: $max-app-width;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  div.logo {
+    background: $logo-background;
+    position: absolute;
+    top: 0;
+    padding-top: $top-bar-height - 83px; //this is ghetto
+    color: white;
+    font-size: 30px;
+    font-family: 'Leitura News Roman 1';
+    width: 100%;
+    text-align: center;
+
+    div {
+      display: inline-block;
+    }
+
+    div.front {
+      color: $highlight;
+    }
+
+    div.back {
+      margin-left: 1px;
+      height: 35px;
+      border-bottom: 2px solid $highlight;
+    }
+  }
 
   div.top-bar {
     width: 100%;
-    height: 100px;
-    background: $top-bar-background;
+    height: $top-bar-height;
     position: relative;
-
-    div.logo {
-      position: absolute;
-      bottom: 40px;
-      color: white;
-      font-size: 30px;
-      font-family: 'Leitura News Roman 1';
-      width: 100%;
-      text-align: center;
-
-      span.front {
-        color: $highlight
-      }
-      span.back {
-        margin-left: 1px
-      }
-    }
 
     div.breadcrumb-background {
       position: absolute;
       bottom: 0;
       width: 100%;
-      background: $content-background;
       height: $breadcrumb-height;
 
       div.breadcrumbs {
@@ -127,37 +147,120 @@ div.app-container {
       div.content-scroller {
         height: 100%;
         overflow: auto;
-        padding: 20px;
+        padding: 20px 10px;
       }
 
       div.post-preview {
-        display: flex;
-        flex-direction: column;
-        border: 1px solid black;
+        padding: 5px;
+        background: white;
         border-radius: 5px;
         margin-bottom: 10px;
 
-        div.bottom {
+        display: flex;
+
+        div.content {
           display: flex;
+          flex-direction: column;
 
-          div.preview-sizer {
-            padding: 10px;
+          a {
+            color: $black;
+            text-decoration: none;
+          }
 
-            div.preview {
-              width: 100px;
-              height: 100px;
-              overflow: hidden;
-              border-radius: 50%;
+          a:hover {
+            text-decoration: underline;
+            text-decoration-color: $highlight;
+          }
+
+          div.authorship {
+            font-size: 10px;
+            padding: 5px 5px 0;
+
+            span.mini-badge {
+              padding: 0 2px;
 
               img {
-                position: relative;
-                top: 50%;
-                left: 50%;
-                transform: translateX(-50%) translateY(-50%);
-                display: block;
-                max-width: 200%;
-                max-height: 200%;
-                height: auto;
+                max-height: 15px;
+                max-width: 15px;
+              }
+            }
+          }
+
+          div.bottom {
+            display: flex;
+
+            div.preview-sizer {
+              padding: 10px;
+
+              div.preview {
+                width: 80px;
+                height: 80px;
+                overflow: hidden;
+                border-radius: 50%;
+
+                img {
+                  position: relative;
+                  top: 50%;
+                  left: 50%;
+                  transform: translateX(-50%) translateY(-50%);
+                  display: block;
+                  max-width: 200%;
+                  max-height: 200%;
+                  height: auto;
+                }
+              }
+            }
+
+            div.title-description {
+              padding: 10px 0;
+
+              div.title {
+                font-size: 18px;
+                margin-bottom: 5px;
+              }
+
+              div.description a {
+                color: #888888;
+                font-size: 14px;
+              }
+            }
+          }
+        }
+
+        div.preview-controls {
+          width: 80px;
+
+          display: flex;
+          flex-direction: column;
+
+          div.pin {
+            margin-bottom: 5px;
+          }
+
+          $preview-controls-opacity: 0.3;
+
+          div {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            height: 22px;
+            color: rgba(0, 0, 0, $preview-controls-opacity);
+
+            span {
+              font-size: 12px;
+            }
+
+            img.icon {
+              width: 16px;
+              height: 16px;
+              opacity: $preview-controls-opacity;
+            }
+
+            button {
+              width: 30px;
+
+              svg {
+                color: rgba(0, 0, 0, $preview-controls-opacity);
               }
             }
           }
@@ -178,7 +281,7 @@ div.app-container {
               opacity: 1;
             }
             svg {
-              color: $top-bar-background;
+              color: $logo-background;
             }
           }
         }
@@ -205,6 +308,18 @@ div.app-container {
         div.media-body {
           font-family: 'Leitura News Roman 1';
           line-height: 1.58;
+
+          a {
+            font-weight: bold;
+            text-decoration: none;
+          }
+
+          a.tag {
+            padding: 4px 2px 0;
+            color: $black;
+            background: transparentize($highlight, 0.8);
+            border-bottom: 2px solid $highlight;
+          }
 
           p {
             margin-top: 20px;
@@ -239,7 +354,7 @@ div.app-container {
         position: absolute;
         width: 80px;
         top: -50px;
-        left: 200px;
+        right: 30px;
 
         img {
           background: white;
@@ -249,7 +364,110 @@ div.app-container {
           box-shadow: 0 0 0 2px $content-background;
         }
       }
+
+      div.user-info {
+        div.name {
+          font-size: 24px;
+        }
+
+        div.description {
+          opacity: 0.5;
+        }
+
+        div.quirks {
+          padding-top: 20px;
+          display: flex;
+
+          table.quirks {
+            width: 100%;
+            th {
+              width: 33%;
+            }
+            td {
+              font-size: 12px;
+              opacity: 0.4;
+              text-align: center;
+            }
+          }
+        }
+      }
+
+      div.media-info {
+        a {
+          color: $black;
+          font-weight: bold;
+          text-decoration: none;
+        }
+
+        a:hover {
+          text-decoration: underline;
+          text-decoration-color: $highlight;
+        }
+      }
     }
   }
 
+  span.mini-badge {
+    display: inline-flex;
+    padding: 0 5px;
+
+    a.name {
+      display: inline;
+    }
+
+    div.icon-holder {
+      margin-left: 3px;
+      display: inline;
+      width: 20px;
+      height: 15px;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  img.icon {
+    opacity: 0.4;
+    max-width: 20px;
+    max-height: 20px;
+  }
+}
+
+div.badge {
+  width: 250px;
+  min-height: 100px;
+
+  padding: 15px;
+
+  div.icon-holder {
+    position: absolute;
+    right: -15px;
+    top: -15px;
+    padding: 5px;
+    border: 2px solid #30404d;
+    border-radius: 50%;
+    background: white;
+
+    img {
+      max-width: 50px;
+      max-height: 50px;
+    }
+  }
+
+  div.name {
+    font-size: 20px;
+  }
+
+  div.type {
+    font-size: 12px;
+    opacity: 0.5;
+    margin-bottom: 15px;
+  }
+
+  div.description {
+    font-size: 14px;
+    opacity: 0.5;
+  }
 }

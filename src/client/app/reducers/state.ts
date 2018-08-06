@@ -80,6 +80,13 @@ const backend: BackendState = {
         heartsGiven: 0,
         verified: false,
       },
+    },
+    jennyfielding: {
+      name: "Jenny Fielding",
+      description: "Drawing on a diverse background in venture capital, operations, business development and law",
+      subscriptions: [],
+      publications: [],
+      posts: [],
     }
   },
   collections: {
@@ -139,7 +146,7 @@ const backend: BackendState = {
       medium: "m/https://medium.com/swlh/the-art-of-the-lazy-product-manager-fc6e5385a00b",
       type: "publish",
     },
-    // yichen stuff
+    // erasmusLink stuff
     "rep/pitching-for-your-first-check": {
       medium: "m/https://medium.com/swlh/pitching-for-your-first-check-here-are-five-brilliant-women-investors-you-should-know-d7985cf9b9ac",
       type: "rep",
@@ -172,7 +179,9 @@ const backend: BackendState = {
       url: "https://medium.com/swlh/raising-capital-for-the-first-time-heres-how-to-do-it-successfully-c07ccbb4196",
       source: "c/thestartup",
       creator: "u/parulsingh",
-      links: [],
+      links: [
+        {locator: "c/foundercollective", selector: {id: "54cb", path: [1]}}
+      ],
       posts: ["comment/raising-capital"],
       type: "article",
     },
@@ -182,7 +191,14 @@ const backend: BackendState = {
       url: "https://medium.com/swlh/pitching-for-your-first-check-here-are-five-brilliant-women-investors-you-should-know-d7985cf9b9ac",
       source: "c/thestartup",
       creator: "u/parulsingh",
-      links: ["u/jennyfielding", "u/sorayadarabi", "u/nimikatragadda", "u/nicolestata", "u/elizabethyin"],
+      links: [
+        {locator: "u/jennyfielding", selector: {id: "06aa", path: [0, 0], position: [0, 14]}},
+        {locator: "u/sorayadarabi", "selector":{"id":"0945","path":[0,0],"position":[0,13]}},
+        {locator: "u/nimikatragadda", "selector": {"id":"ccc3","path":[0,0],"position":[0,15]}},
+        {locator: "u/nicolestata", "selector":{"id":"f3e1","path":[0,0],"position":[0,12]}},
+        {locator: "u/elizabethyin", "selector":{"id":"cdcf","path":[0,0],"position":[0,13]}},
+        {locator: "c/foundercollective", "selector":{id: "0ffb", path: [1]}}
+      ],
       posts: ["rep/pitching-for-your-first-check", "highlight/pitching-for-your-first-check", "comment/pitching-for-your-first-check"],
       type: "article",
     },
@@ -202,7 +218,7 @@ const backend: BackendState = {
       url: "https://medium.com/women-of-silicon-valley/10-questions-with-ann-miura-ko-1aad12e00d07",
       source: "c/medium",
       creator: "c/womenofsiliconvalley",
-      links: ["u/annmiuroko"],
+      links: [{locator: "u/annmiuroko"}],
       posts: [],
       type: "article",
     },

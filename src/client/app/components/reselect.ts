@@ -1,17 +1,23 @@
 import {
   AppState,
-  BackendState, BreadCrumb, Collection,
+  BackendState,
+  BreadCrumb,
+  Collection,
   CollectionLike,
   EnrichedPost,
   FrontendState,
   Locator,
   Medium,
   Post,
+  Tag,
+  TypedArtifact,
   User
 } from "../reducers/redux";
 import {flatten, memoize, uniq, uniqBy} from "lodash";
 import {createSelector} from "reselect";
 import {ErasmusAppOwnProps, Feed} from "./ErasmusApp";
+import {Locatable} from "./MiniBadge";
+import {MediaParserOwnProps} from "./MediaParser";
 
 export const getFrontendState = (state: AppState) => state.frontend;
 export const getBackendState = (state: AppState) => state.backend;
@@ -138,3 +144,19 @@ export const getRealBreadcrumbs = createSelector([getBackendState, getCurrent, g
     };
   }
 );
+
+const getLocator = (state: AppState, props: Locatable) => props.locator;
+export const getArtifact = createSelector([getBackendState, getLocator], (backend, locator) => {
+  return Object.assign({artifactType: convertLocator(locator)[0]}, getObject(backend, locator)) as TypedArtifact;
+});
+
+const getLinks = (state: AppState, props: MediaParserOwnProps) => props.post.instance.links;
+export const convertTags = createSelector([getLinks], (links) => {
+  const res: {[key: string]: Tag} = {};
+  links.forEach(link => {
+    if ("selector" in link) {
+      res[link.selector.id] = link;
+    }
+  });
+  return res;
+});
