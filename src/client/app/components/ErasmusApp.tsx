@@ -37,7 +37,7 @@ class UnconnectedErasmusApp extends React.Component<Props> {
             <TopBar
               name={name}
               description={description}
-              locator={this.props.locator}
+              {...this.props}
             />
             <OmniViewer name={name} description={description} {...this.props} />
           </div>

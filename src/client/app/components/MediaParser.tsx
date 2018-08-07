@@ -35,14 +35,12 @@ class UnconnectedMediaParser extends React.PureComponent<MediaParserProps> {
         interactionKind={PopoverInteractionKind.HOVER}
         content={<Badge locator={locator} />}
       >
-        <a className="tag" href={`#/demo?${locator}`}>{contents}</a>
+        <a id={`tag-${locator}`} className="tag" href={`#/demo?${locator}`}>{contents}</a>
       </Popover>
     )
   }
 
   render() {
-    console.log(this.props);
-
     const parserOptions = {
       replace: (arg:  ParserNode) => {
         const {type, name, attribs} = arg;
@@ -81,9 +79,9 @@ class UnconnectedMediaParser extends React.PureComponent<MediaParserProps> {
           let needSpacer = (typeof innerText === "string" && innerText[0] === " ");
           return (
             <Tooltip hoverOpenDelay={500} content={<Spinner />}>
-              <a className="untag" {...attributesToProps(arg.attribs)} href="">
+              <a className="untag" {...attributesToProps(arg.attribs)}>
                 { needSpacer && <span>&nbsp;</span> }
-                {domToReact(arg.children, parserOptions)}
+                { domToReact(arg.children, parserOptions) }
               </a>
             </Tooltip>
           );

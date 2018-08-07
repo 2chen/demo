@@ -81,6 +81,10 @@ export interface BreadCrumb extends Artifact {
   locator: Locator;
 }
 
+export const AllMediaTypes: MediaType[] = [
+  "comment", "article", "podcast"
+];
+
 export type MediaType = "comment" | "article" | "podcast";
 
 export interface SearchControlState {

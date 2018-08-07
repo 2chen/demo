@@ -74,12 +74,7 @@ const backend: BackendState = {
         "p/publish/pitching-for-your-first-check",
         "p/publish/the-art-of-the-lazy"
       ],
-      quirks: {
-        reputation: "Sage",
-        hearts: 1,
-        heartsGiven: 0,
-        verified: false,
-      },
+      icon: "parulsingh.png",
     },
     jennyfielding: {
       name: "Jenny Fielding",
@@ -87,14 +82,45 @@ const backend: BackendState = {
       subscriptions: [],
       publications: [],
       posts: [],
-    }
-  },
-  collections: {
-    yichenxing: {
-      name: "Yichen Xing",
-      description: "Yichen's Personal Collection",
+    },
+    sorayadarabi: {
+      name: "Soraya Darabi",
+      description: "",
+      subscriptions: [],
+      publications: [],
       posts: [],
     },
+    nimikatragadda: {
+      name: "Nimika Tragadda",
+      description: "",
+      subscriptions: [],
+      publications: [],
+      posts: [],
+    },
+    nicolestata: {
+      name: "Nicole Stata",
+      description: "",
+      subscriptions: [],
+      publications: [],
+      posts: [],
+    },
+    elizabethyin: {
+      name: "Elizabeth Yin",
+      description: "",
+      subscriptions: [],
+      publications: [],
+      posts: [],
+    },
+    justinkan: {
+      name: "Justin Kan",
+      description: "",
+      subscriptions: [],
+      publications: [{noun: "CEO", of: "c/atrium"}],
+      posts: ["p/publish/atrium"],
+      icon: "justinkan.jpeg",
+    },
+  },
+  collections: {
     erasmus: {
       name: "erasm.us",
       description: "hottest monk/startup since 1536",
@@ -131,6 +157,21 @@ const backend: BackendState = {
       description: "",
       posts: [],
     },
+    foundercollective: {
+      name: "Founder Collective",
+      description: "",
+      posts: [],
+    },
+    atrium: {
+      name: "Atrium",
+      description: "",
+      posts: ["p/publish/atrium"],
+    },
+    coffee: {
+      name: "☕",
+      description: "The father of the industrial revolution",
+      posts: [],
+    }
   },
   posts: {
     // the startup posts
@@ -171,6 +212,10 @@ const backend: BackendState = {
       type: "rep",
       metadata: "heart",
     },
+    "publish/atrium": {
+      medium: "m/https://www.atrium.co/blog/seed-stage-funding-startups/",
+      type: "publish"
+    }
   },
   media: {
     "https://medium.com/swlh/raising-capital-for-the-first-time-heres-how-to-do-it-successfully-c07ccbb4196": {
@@ -180,7 +225,8 @@ const backend: BackendState = {
       source: "c/thestartup",
       creator: "u/parulsingh",
       links: [
-        {locator: "c/foundercollective", selector: {id: "54cb", path: [1]}}
+        {locator: "c/foundercollective", selector: {id: "54cb", path: [1]}},
+        {locator: "m/https://www.atrium.co/blog/seed-stage-funding-startups/", selector: {id: "92b5", path: [0]}},
       ],
       posts: ["comment/raising-capital"],
       type: "article",
@@ -222,6 +268,16 @@ const backend: BackendState = {
       posts: [],
       type: "article",
     },
+    "https://www.atrium.co/blog/seed-stage-funding-startups/": {
+      name: "How to Raise Seed Stage Funding: The Startup Guide",
+      description: "",
+      url: "https://www.atrium.co/blog/seed-stage-funding-startups/",
+      source: "c/atrium",
+      creator: "u/justinkan",
+      links: [],
+      posts: [],
+      type: "article",
+    }
   }
 };
 

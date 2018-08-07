@@ -1,12 +1,25 @@
 import * as React from "react";
-import {BreadCrumb, Collection, EnrichedPost, User, Tag, LinkLike} from "../reducers/redux";
+import {
+  AppState,
+  BreadCrumb,
+  Collection,
+  EnrichedPost,
+  LinkLike,
+  Locator,
+  Relationship,
+  Tag,
+  User,
+} from "../reducers/redux";
 import {Feed} from "./ErasmusApp";
-import {Button, ButtonGroup, InputGroup} from "@blueprintjs/core";
+import {Button, ButtonGroup, Switch} from "@blueprintjs/core";
 import {UnfurlResult} from "../reducers/dispatcher";
 import {dispatcher} from "../root";
-import {MiniBadge} from "./MiniBadge";
+import {Locatable, MiniBadge} from "./MiniBadge";
 import {articles} from "../reducers/articles";
 import {MediaParser} from "./MediaParser";
+import {CollectionFeedControls, UserFeedControls} from "./FeedControls";
+import {connect} from "react-redux";
+import {getContributors} from "./reselect";
 
 interface OmniViewerProps extends BreadCrumb {
   type: string;
@@ -32,17 +45,28 @@ export class OmniViewer extends React.PureComponent<OmniViewerProps> {
     } else if (this.props.type === "p") {
       return <MediaInfo {...(this.props.object) as EnrichedPost} />;
     } else if (this.props.type === "c") {
-      return <div>collections info goes here</div>;
+      return <CollectionInfo locator={this.props.locator} {...(this.props.object as Collection)} />;
     }
   };
 
+  private renderControls = () => {
+    switch(this.props.type) {
+      case "p":
+        return <ArticleControls />;
+      case "c":
+        return <CollectionFeedControls locator={this.props.locator}/>;
+      case "u":
+        return <UserFeedControls locator={this.props.locator} />;
+      default:
+        throw new Error("shouldn't happen");
+    }
+  }
+
   render() {
     return (
-      <div className="omni-viewer width-limited">
+      <div className="omni-viewer">
         <div className="controls mini-feed">
-          { this.props.type === "p"
-            ? <ArticleControls />
-            : <FeedControls /> }
+          { this.renderControls() }
         </div>
 
         <div className="content">
@@ -61,32 +85,16 @@ export class OmniViewer extends React.PureComponent<OmniViewerProps> {
   }
 }
 
-class FeedControls extends React.PureComponent {
-  render() {
-    return (
-      <div className="feed-controls">
-        <InputGroup
-          disabled={false}
-          large={false}
-          leftIcon="search"
-          onChange={undefined}
-          placeholder="Search"
-        />
-        <div>media filter goes here</div>
-        <div>nerd controls go here</div>
-        <div>collections go here</div>
-      </div>
-    );
-  }
-}
-
 class ArticleControls extends React.PureComponent {
   render() {
     return (
       <div className="feed-controls">
-        <div>toggle highlights</div>
-        <div>toggle tags</div>
-        <div>comments go here</div>
+        <div><Switch checked={true} label="Show tags" /></div>
+        <div><Switch checked={true} label="Show comments" /></div>
+        <div className="comments">
+          <div className="subtitle">Comments</div>
+          <div className="fake">Coming Soon™</div>
+        </div>
       </div>
     );
   }
@@ -239,6 +247,17 @@ class UserInfo extends React.PureComponent<User> {
   //contributor to Erasmus
   //latest starred post
 
+  private renderRelationships = () => {
+    const name = this.props.name === "Yichen Xing" ? "Your" : (this.props.name.split(" ")[0] + "'s");
+    const res = [<div key="subtitle" className="subtitle">{name + " Interests"}</div>];
+    [...this.props.publications, ...this.props.subscriptions].forEach(r => {
+      res.push(<div key={r.of} className="relationship">
+        <a className="noun">{r.noun}</a> of <MiniBadge locator={r.of} />
+      </div>);
+    });
+    return res;
+  }
+
   render() {
     const editable = this.props.name === "Yichen Xing"; //lol
     // const {reputation, hearts, heartsGiven, verified} = this.props.quirks;
@@ -266,8 +285,8 @@ class UserInfo extends React.PureComponent<User> {
             </tbody>
           </table>
         </div>
-        <div>relationships go here</div>
-        <div>word cloud go here</div>
+        <div className="relationships">{this.renderRelationships()}</div>
+        <div className="word-cloud"><div className="subtitle">Word Cloud</div><div className="fake">Coming Soon™</div></div>
       </div>
     );
   }
@@ -283,18 +302,100 @@ class MediaInfo extends React.PureComponent<EnrichedPost, Unfurlable> {
     dispatcher.unfurl(this.props.instance.url).then(unfurl => this.setState({unfurl}));
   }
 
+  private renderSubsection = (name: string, links: LinkLike[]) => {
+    return !links.length ? null : (
+      <div className="subsection">
+        <div className="subtitle">{name}</div>
+        { links.map(c =>
+          <div className="line" key={c.locator}>
+            { (c as Tag).selector && this.renderSeeker(c as Tag) }
+            <MiniBadge locator={c.locator}/>
+          </div>) }
+      </div>
+    );
+  }
+
+  private renderSeeker = (tag: Tag) => {
+    return <Seeker {...tag} />;
+  }
+
   render() {
+    const collections = this.props.instance.links.filter(link => link.locator.startsWith("c"));
+    const users = this.props.instance.links.filter(link => link.locator.startsWith("u"));
+    const media = this.props.instance.links.filter(link => link.locator.startsWith("m"));
+
+    console.log(this.state.unfurl);
     return (
       <div className="media-info">
         <div className="picture">
-          <img src={this.state.unfurl && this.state.unfurl.other.maskIcon} />
+          <img src={this.state.unfurl && (this.state.unfurl.other.maskIcon || this.state.unfurl.other.icon)} />
         </div>
-        <div>From <MiniBadge locator={this.props.instance.source} /></div>
-        <div>By <MiniBadge locator={this.props.instance.creator} /></div>
-        <div>Linked collections go here</div>
-        <div>linked people go here</div>
-        <div>Linked media go here</div>
+        <div className="source"><span className="subtitle">From </span><div><MiniBadge locator={this.props.instance.source} /></div></div>
+        <div className="creator"><span className="subtitle">By </span><div><MiniBadge locator={this.props.instance.creator} /></div></div>
+        { this.renderSubsection("Linked Collections", collections) }
+        { this.renderSubsection("Linked Users", users) }
+        { this.renderSubsection("Linked Media", media) }
       </div>
     );
+  }
+}
+
+interface CollectionInfoOwnProps extends Collection, Locatable {
+}
+
+interface CollectionInfoProps extends CollectionInfoOwnProps {
+  contributors: Locator[];
+}
+
+class UnconnectedCollectionInfo extends React.PureComponent<CollectionInfoProps> {
+
+  private renderContributors = () => {
+    if (this.props.contributors.length === 0) {
+      return null;
+    }
+
+    const res = [<div className="subtitle">Contributors</div>];
+    this.props.contributors.forEach((c) => {
+      res.push(<div className="contributor">{<MiniBadge locator={c}/>}</div>);
+    });
+    return res;
+  }
+
+  render() {
+    const editable = this.props.name === "Yichen Xing"; //lol
+    // const {reputation, hearts, heartsGiven, verified} = this.props.quirks;
+
+    return (
+      <div className="collection-info">
+        <div className="picture">
+          <img src={"collections.png"} />
+        </div>
+        <div className="name">{this.props.name}</div>
+        <div className="description">{this.props.description}</div>
+        <div className="contributors">
+          {this.renderContributors()}
+        </div>
+      </div>
+    );
+  }
+}
+
+const CollectionInfo = connect((state: AppState, props: CollectionInfoOwnProps) => {
+  return {
+    contributors: getContributors(state, props)
+  };
+})(UnconnectedCollectionInfo);
+
+class Seeker extends React.PureComponent<Tag> {
+  private onClick = () => {
+    const viewer = document.getElementsByClassName("content-scroller").item(0);
+    const tag = document.getElementById("tag-" + this.props.locator);
+    if (tag && viewer) {
+      viewer.scrollTop = tag.offsetTop - 20;
+    }
+  }
+
+  render() {
+    return <Button className="seeker" minimal={true} icon="zoom-in" onClick={this.onClick}/>;
   }
 }

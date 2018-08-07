@@ -18,6 +18,7 @@ import {createSelector} from "reselect";
 import {ErasmusAppOwnProps, Feed} from "./ErasmusApp";
 import {Locatable} from "./MiniBadge";
 import {MediaParserOwnProps} from "./MediaParser";
+import {forEach, keys} from "lodash";
 
 export const getFrontendState = (state: AppState) => state.frontend;
 export const getBackendState = (state: AppState) => state.backend;
@@ -159,4 +160,43 @@ export const convertTags = createSelector([getLinks], (links) => {
     }
   });
   return res;
+});
+
+export const getSearchControlState = createSelector([getFrontendState], (frontend) => {
+  return frontend.searchControlState;
+});
+
+export const getCollectionsForUser = createSelector([getBackendState, getArtifact], (backend, artifact) => {
+  if (artifact.artifactType === "u") {
+    const user = artifact as any as User;
+    const {publications, subscriptions} = user;
+    const collections = [...publications, ...subscriptions].map(r => r.of);
+    const collectionSet = new Set(collections);
+    const noncollections = keys(backend.collections).map(key => `c/${key}`)
+      .filter(key => !collectionSet.has(key));
+    return { collections, noncollections };
+  }
+  return { collections: [], noncollections: [] };
+});
+
+export const getCollectionsForCollection = createSelector([getBackendState, getLocator], (backend, locator) => {
+  const collections = [locator];
+  const collectionSet = new Set(collections);
+  const noncollections = keys(backend.collections).map(key => `c/${key}`)
+    .filter(key => !collectionSet.has(key));
+  return { collections, noncollections };
+});
+
+export const getContributors = createSelector([getBackendState, getLocator], (backend, locator) => {
+  const posts = new Set((getObject(backend, locator) as Collection).posts);
+  const contributors = new Set();
+  forEach(backend.users, (user, userLocator) => {
+    for (let i = 0; i < user.posts.length; i++) {
+      if (posts.has(user.posts[i])) {
+        contributors.add("u/" + userLocator);
+        break;
+      }
+    }
+  });
+  return Array.from(contributors);
 });

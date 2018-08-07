@@ -7,6 +7,7 @@
   transform: scale(.8);
 }
 
+$min-app-width: 800px;
 $max-app-width: 1280px;
 $logo-background: #233240;
 $content-background: #f4f4f6;
@@ -16,6 +17,8 @@ $info-width: 280px;
 $black: #111111;
 $mainColor: #464d51;
 $highlight: #98ffdc;
+$light-color: #9ba5af;
+$subheader-color: rgba(0, 0, 0, 0.5);
 
 $top-bar-height: 110px;
 
@@ -38,6 +41,7 @@ div.app-container {
   align-items: center;
 
   div.width-limiter {
+    width: 100%;
     max-width: $max-app-width;
     height: 100%;
 
@@ -47,9 +51,8 @@ div.app-container {
 
   div.logo {
     background: $logo-background;
-    position: absolute;
     top: 0;
-    padding-top: $top-bar-height - 83px; //this is ghetto
+    padding-top: 27px; //this is ghetto
     color: white;
     font-size: 30px;
     font-family: 'Leitura News Roman 1';
@@ -73,7 +76,7 @@ div.app-container {
 
   div.top-bar {
     width: 100%;
-    height: $top-bar-height;
+    height: 40px;
     position: relative;
 
     div.breadcrumb-background {
@@ -100,7 +103,7 @@ div.app-container {
         }
 
         div.breadcrumb a {
-          color: #9ba5af;
+          color: $light-color;
           text-decoration: none;
         }
 
@@ -114,37 +117,98 @@ div.app-container {
         div.vote-controls {
           margin-left: auto;
           width: $vote-control-width;
-          margin-top: -10px;
+          margin-top: -15px;
           height: 40px;
-          background: $highlight;
           overflow: hidden;
+
+          display: flex;
+          flex-direction: row;
+          align-content: end;
+
+          button {
+            margin-left: auto;
+            transition: background 0.25s;
+          }
+          button:hover {
+            background: $highlight;
+          }
         }
       }
     }
   }
 
   div.omni-viewer {
+    flex: 1 1;
     width: 100%;
-    flex: 1;
 
     display: flex;
     background: $content-background;
 
     div.controls {
       width: 200px;
+      min-width: 200px;
       height: 100%;
-      padding: 20px 10px 10px;
+      padding: 10px;
 
       div.feed-controls {
+        & > div {
+          margin-top: 10px;
+        }
+
+        div.media-controls {
+          width: 100%;
+          display: flex;
+          justify-content: space-around;
+
+          button.active {
+            background: $highlight;
+          }
+
+          img {
+            max-width: 25px;
+            max-height: 25px;
+          }
+        }
+
+        div.fine-tune {
+          div.fake {
+            color: $light-color;
+            margin-left: 5px;
+          }
+        }
+
+        div.collections > span {
+          display: block;
+          margin-top: 5px;
+        }
+
+        div.subtitle {
+          margin-top: 30px;
+          color: $subheader-color;
+        }
+
       }
+
+      div.comments {
+        margin-top: 20px;
+
+        div.fake {
+          font-size: 12px;
+          margin-left: 5px;
+          color: $subheader-color;
+        }
+      }
+
     }
 
     div.content {
-      flex: 1;
+      flex: 1 1;
       height: 100%;
       position: relative;
 
       div.content-scroller {
+        transition: all 0.25s;
+
         height: 100%;
         overflow: auto;
         padding: 20px 10px;
@@ -173,15 +237,15 @@ div.app-container {
           }
 
           div.authorship {
-            font-size: 10px;
+            font-size: 12px;
             padding: 5px 5px 0;
 
             span.mini-badge {
               padding: 0 2px;
 
-              img {
-                max-height: 15px;
-                max-width: 15px;
+              div.icon-holder {
+                width: 15px;
+                height: 15px;
               }
             }
           }
@@ -344,6 +408,7 @@ div.app-container {
     div.info {
       background: $content-background;
       width: $info-width;
+      min-width: $info-width;
       top: -$breadcrumb-height;
       height: calc(100% + #{$breadcrumb-height});
       position: relative;
@@ -354,7 +419,7 @@ div.app-container {
         position: absolute;
         width: 80px;
         top: -50px;
-        right: 30px;
+        right: 10px;
 
         img {
           background: white;
@@ -390,12 +455,54 @@ div.app-container {
             }
           }
         }
+
+        div.relationships {
+          div.subtitle {
+            margin-top: 20px;
+            color: $subheader-color
+          }
+
+          div.relationship {
+            margin-top: 5px;
+            font-size: 14px;
+          }
+
+          a.noun {
+            padding: 0 5px;
+            font-weight: bold;
+          }
+
+          span.mini-badge a {
+            font-weight: bold;
+          }
+        }
+
+        div.word-cloud {
+          div.subtitle {
+            margin-top: 20px;
+            color: $subheader-color
+          }
+
+          div.fake {
+            color: $subheader-color;
+            padding: 0 5px;
+            margin-top: 5px;
+            font-size: 14px;
+          }
+        }
       }
 
       div.media-info {
+        span.mini-badge {
+          padding: 0;
+        }
+
+        span.subtitle {
+          color: $subheader-color;
+        }
+
         a {
-          color: $black;
-          font-weight: bold;
+          //color: cadetblue;
           text-decoration: none;
         }
 
@@ -403,28 +510,80 @@ div.app-container {
           text-decoration: underline;
           text-decoration-color: $highlight;
         }
+
+        div.subsection {
+          margin-top: 20px;
+
+          div.subtitle {
+            color: $subheader-color;
+          }
+
+          div.line {
+          }
+        }
+
+        button.seeker {
+          opacity: 0.5;
+        }
+      }
+
+      div.collection-info {
+        div.name {
+          font-size: 24px;
+        }
+
+        div.description {
+          padding-left: 5px;
+          opacity: 0.5;
+        }
+
+
+        div.subtitle {
+          margin-top: 20px;
+          color: $subheader-color;
+        }
+
+        div.line {
+        }
       }
     }
   }
 
   span.mini-badge {
-    display: inline-flex;
+    display: inline;
     padding: 0 5px;
 
     a.name {
       display: inline;
+      height: 20px;
+      text-decoration-color: $highlight;
+      padding-right: 15px;
+    }
+
+    span.name-holder {
+      height: 100%;
+      flex: 1 1;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
 
     div.icon-holder {
       margin-left: 3px;
       display: inline;
+      position: absolute;
+      overflow: hidden;
       width: 20px;
-      height: 15px;
+      height: 20px;
 
       img {
-        width: 100%;
-        height: auto;
+        position: absolute;
+        max-height: 100%;
+        width: auto;
       }
+    }
+
+    div.icon-holder.round {
+      border-radius: 50%;
     }
   }
 
