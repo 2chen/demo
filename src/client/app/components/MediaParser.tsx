@@ -1,10 +1,11 @@
 import {AppState, EnrichedPost, Locator, Tag} from "../reducers/redux";
 import * as React from "react";
-import {Popover, PopoverInteractionKind, Spinner, Tooltip} from "@blueprintjs/core";
+import {Button, Popover, PopoverInteractionKind, Tooltip} from "@blueprintjs/core";
 import {cloneDeep} from "lodash";
 import {connect} from "react-redux";
 import {convertTags} from "./reselect";
 import {Badge} from "./MiniBadge";
+
 const Parser = require('html-react-parser');
 const domToReact = require('html-react-parser/lib/dom-to-react');
 const attributesToProps = require('html-react-parser/lib/attributes-to-props');
@@ -78,7 +79,7 @@ class UnconnectedMediaParser extends React.PureComponent<MediaParserProps> {
           const innerText = domToReact(arg.children, parserOptions);
           let needSpacer = (typeof innerText === "string" && innerText[0] === " ");
           return (
-            <Tooltip hoverOpenDelay={500} content={<Spinner />}>
+            <Tooltip hoverOpenDelay={500} hoverCloseDelay={1500} content={<Button className="item" icon="tag" />}>
               <a className="untag" {...attributesToProps(arg.attribs)}>
                 { needSpacer && <span>&nbsp;</span> }
                 { domToReact(arg.children, parserOptions) }

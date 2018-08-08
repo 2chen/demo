@@ -95,7 +95,18 @@ export class Root extends React.Component<any, RootProps> {
             duration={DEFAULT_DURATION}
             data={{width, height}}
           >
-            Prologue
+            <div className="slide">
+              introduction
+            </div>
+          </Step>
+          <Step
+            id="team"
+            duration={DEFAULT_DURATION}
+            data={{width, height}}
+          >
+            <div className="slide">
+              team
+            </div>
           </Step>
           <Step
             id="demo-preview"

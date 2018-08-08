@@ -68,7 +68,10 @@ const backend: BackendState = {
       name: "Parul Singh",
       description: "early stage VC @fcollective. lover of startups, UX+ product management. forever founder. proud investor @pillpack @workjam @asklorem @adhawk @smallsforsmalls",
       subscriptions: [],
-      publications: [{noun: "contributor", of: "c/thestartup"}],
+      publications: [
+        {noun: "contributor", of: "c/thestartup"},
+        {noun: "principal", of: "c/foundercollective"},
+      ],
       posts: [
         "p/publish/raising-capital",
         "p/publish/pitching-for-your-first-check",
@@ -119,6 +122,14 @@ const backend: BackendState = {
       posts: ["p/publish/atrium"],
       icon: "justinkan.jpeg",
     },
+    davidfrannkel: {
+      name: "David Frankel",
+      description: "",
+      subscriptions: [],
+      publications: [{noun: "partner", of: "c/foundercollective"}],
+      posts: ["p/publish/are-you-working"],
+      icon: "davidfrankel.jpg",
+    }
   },
   collections: {
     erasmus: {
@@ -134,7 +145,7 @@ const backend: BackendState = {
       posts: [
         "p/publish/raising-capital",
         "p/publish/pitching-for-your-first-check",
-        "p/publish/the-art-of-the-lazy"
+        "p/publish/the-art-of-the-lazy",
       ],
     },
     womenofsiliconvalley: {
@@ -150,7 +161,13 @@ const backend: BackendState = {
     startups: {
       name: "Startups",
       description: "",
-      posts: [],
+      posts: [
+        "p/publish/raising-capital",
+        "p/publish/pitching-for-your-first-check",
+        "p/publish/the-art-of-the-lazy",
+        "p/publish/are-you-working",
+        "p/publish/atrium",
+      ],
     },
     technology: {
       name: "Technology",
@@ -160,7 +177,12 @@ const backend: BackendState = {
     foundercollective: {
       name: "Founder Collective",
       description: "",
-      posts: [],
+      posts: [
+        "p/publish/are-you-working",
+        "p/publish/raising-capital",
+        "p/publish/pitching-for-your-first-check",
+        "p/publish/the-art-of-the-lazy",
+      ],
     },
     atrium: {
       name: "Atrium",
@@ -214,7 +236,11 @@ const backend: BackendState = {
     },
     "publish/atrium": {
       medium: "m/https://www.atrium.co/blog/seed-stage-funding-startups/",
-      type: "publish"
+      type: "publish",
+    },
+    "publish/are-you-working": {
+      medium: "m/https://hackernoon.com/are-you-working-on-a-side-project-or-a-startup-569ae7f6ac0",
+      type: "publish",
     }
   },
   media: {
@@ -274,6 +300,16 @@ const backend: BackendState = {
       url: "https://www.atrium.co/blog/seed-stage-funding-startups/",
       source: "c/atrium",
       creator: "u/justinkan",
+      links: [],
+      posts: [],
+      type: "article",
+    },
+    "https://hackernoon.com/are-you-working-on-a-side-project-or-a-startup-569ae7f6ac0": {
+      name: "Are You Working on a Side Project or a Startup?",
+      description: "You don’t have to plan on global domination from day one of your startup!\n",
+      url: "https://hackernoon.com/are-you-working-on-a-side-project-or-a-startup-569ae7f6ac0",
+      source: "c/foundercollective",
+      creator: "u/davidfrankel",
       links: [],
       posts: [],
       type: "article",

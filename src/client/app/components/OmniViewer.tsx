@@ -5,7 +5,7 @@ import {
   Collection,
   EnrichedPost,
   LinkLike,
-  Locator,
+  Locator, Medium,
   Relationship,
   Tag,
   User,
@@ -44,6 +44,15 @@ export class OmniViewer extends React.PureComponent<OmniViewerProps> {
       return <UserInfo {...(this.props.object as User)} />;
     } else if (this.props.type === "p") {
       return <MediaInfo {...(this.props.object) as EnrichedPost} />;
+    } else if (this.props.type === "m") {
+      return <MediaInfo
+        type="publish"
+        locator={this.props.locator}
+        medium={this.props.locator}
+        instance={this.props.object as Medium}
+        name={this.props.object.name}
+        description={this.props.object.description}
+      />;
     } else if (this.props.type === "c") {
       return <CollectionInfo locator={this.props.locator} {...(this.props.object as Collection)} />;
     }
@@ -51,6 +60,7 @@ export class OmniViewer extends React.PureComponent<OmniViewerProps> {
 
   private renderControls = () => {
     switch(this.props.type) {
+      case "m":
       case "p":
         return <ArticleControls />;
       case "c":
@@ -58,7 +68,25 @@ export class OmniViewer extends React.PureComponent<OmniViewerProps> {
       case "u":
         return <UserFeedControls locator={this.props.locator} />;
       default:
-        throw new Error("shouldn't happen");
+        debugger;
+    }
+  }
+
+  private renderContent = () => {
+    switch(this.props.type) {
+      case "p":
+        return <MediaViewer {...(this.props.object as EnrichedPost)} />;
+      case "m":
+        return <MediaViewer
+          type="publish"
+          locator={this.props.locator}
+          medium={this.props.locator}
+          instance={this.props.object as Medium}
+          name={this.props.object.name}
+          description={this.props.object.description}
+        />;
+      default:
+        return this.renderFeed();
     }
   }
 
@@ -71,9 +99,7 @@ export class OmniViewer extends React.PureComponent<OmniViewerProps> {
 
         <div className="content">
           <div className="content-scroller">
-          { this.props.type === "p"
-            ? <MediaViewer {...(this.props.object as EnrichedPost)} />
-            : this.renderFeed() }
+          { this.renderContent() }
           </div>
         </div>
 
