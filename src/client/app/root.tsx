@@ -102,7 +102,7 @@ export class Root extends React.Component<any, RootProps> {
           <Step
             id="team"
             duration={DEFAULT_DURATION}
-            data={{width, height}}
+            data={{y: height, width, height}}
           >
             <div className="slide">
               team
@@ -111,14 +111,16 @@ export class Root extends React.Component<any, RootProps> {
           <Step
             id="demo-preview"
             duration={DEFAULT_DURATION}
-            data={{y: height, width, height}}
+            data={{y: height*2, width, height}}
           >
-            Demo
+            <div className="slide">
+              demo
+            </div>
           </Step>
           <Step
             id="demo"
             duration={DEFAULT_DURATION}
-            data={{y: height, width, height}}
+            data={{y: height*2, width, height}}
           >
             <ErasmusApp
               previewing={this.state.path !== "demo"}
@@ -128,16 +130,20 @@ export class Root extends React.Component<any, RootProps> {
           <Step
             id="post-demo"
             duration={DEFAULT_DURATION}
-            data={{y: height! * 2, width, height}}
+            data={{y: height*3, width, height}}
           >
-            Demo hand waving
+            <div className="slide">
+              demo q&a
+            </div>
           </Step>
           <Step
             id="epilogue"
             duration={DEFAULT_DURATION}
-            data={{y: height! * 3, width, height}}
+            data={{y: height*4, width, height}}
           >
-            Epilogue
+            <div className="slide">
+              epilogue
+            </div>
           </Step>
         </Impress>
       );

@@ -122,12 +122,12 @@ const backend: BackendState = {
       posts: ["p/publish/atrium"],
       icon: "justinkan.jpeg",
     },
-    davidfrannkel: {
+    davidfrankel: {
       name: "David Frankel",
       description: "",
       subscriptions: [],
       publications: [{noun: "partner", of: "c/foundercollective"}],
-      posts: ["p/publish/are-you-working"],
+      posts: ["p/publish/are-you-working", "p/publish/tech-crunch"],
       icon: "davidfrankel.jpg",
     }
   },
@@ -179,9 +179,7 @@ const backend: BackendState = {
       description: "",
       posts: [
         "p/publish/are-you-working",
-        "p/publish/raising-capital",
-        "p/publish/pitching-for-your-first-check",
-        "p/publish/the-art-of-the-lazy",
+        "p/publish/tech-crunch",
       ],
     },
     atrium: {
@@ -241,7 +239,11 @@ const backend: BackendState = {
     "publish/are-you-working": {
       medium: "m/https://hackernoon.com/are-you-working-on-a-side-project-or-a-startup-569ae7f6ac0",
       type: "publish",
-    }
+    },
+    "publish/tech-crunch": {
+      medium: "m/https://techcrunch.com/2016/08/29/you-earn-a-million-dollars-a-year-and-cant-get-funded/",
+      type: "publish",
+    },
   },
   media: {
     "https://medium.com/swlh/raising-capital-for-the-first-time-heres-how-to-do-it-successfully-c07ccbb4196": {
@@ -253,6 +255,7 @@ const backend: BackendState = {
       links: [
         {locator: "c/foundercollective", selector: {id: "54cb", path: [1]}},
         {locator: "m/https://www.atrium.co/blog/seed-stage-funding-startups/", selector: {id: "92b5", path: [0]}},
+        {locator: "m/https://techcrunch.com/2016/08/29/you-earn-a-million-dollars-a-year-and-cant-get-funded/", selector: {id: "5409", path: [2]}}
       ],
       posts: ["comment/raising-capital"],
       type: "article",
@@ -308,6 +311,16 @@ const backend: BackendState = {
       name: "Are You Working on a Side Project or a Startup?",
       description: "You don’t have to plan on global domination from day one of your startup!\n",
       url: "https://hackernoon.com/are-you-working-on-a-side-project-or-a-startup-569ae7f6ac0",
+      source: "c/foundercollective",
+      creator: "u/davidfrankel",
+      links: [],
+      posts: [],
+      type: "article",
+    },
+    "https://techcrunch.com/2016/08/29/you-earn-a-million-dollars-a-year-and-cant-get-funded/": {
+      name: "You earn a million dollars a year and can’t get funded?",
+      description: "The funding environment is so overheated that it often seems like no idea is too silly to attract investment. You might be surprised by how many companies struggle to raise money — even those that manage to bootstrap their way to a million dollars (or more) in revenue.",
+      url: "https://techcrunch.com/2016/08/29/you-earn-a-million-dollars-a-year-and-cant-get-funded/",
       source: "c/foundercollective",
       creator: "u/davidfrankel",
       links: [],

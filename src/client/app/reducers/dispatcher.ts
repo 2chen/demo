@@ -5,6 +5,7 @@ import {memoize} from "lodash";
 
 export interface UnfurlResult {
   ogp: {
+    ogUrl: string;
     ogDescription: string;
     ogImage: [{url: string}];
     ogTitle: string;

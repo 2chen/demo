@@ -5,6 +5,7 @@ import {cloneDeep} from "lodash";
 import {connect} from "react-redux";
 import {convertTags} from "./reselect";
 import {Badge} from "./MiniBadge";
+import {SubmissionPopover} from "./TopBar";
 
 const Parser = require('html-react-parser');
 const domToReact = require('html-react-parser/lib/dom-to-react');
@@ -28,7 +29,17 @@ interface ParserNode {
   erasmusTag?: Tag;
 }
 
-class UnconnectedMediaParser extends React.PureComponent<MediaParserProps> {
+
+interface MediaParserState {
+  url: string;
+}
+
+class UnconnectedMediaParser extends React.PureComponent<MediaParserProps, MediaParserState> {
+  constructor(props: MediaParserProps) {
+    super(props);
+    this.state = {url: ""};
+  }
+
   private createBadgePopover(locator: Locator, contents: any) {
     return (
       <Popover
@@ -39,6 +50,14 @@ class UnconnectedMediaParser extends React.PureComponent<MediaParserProps> {
         <a id={`tag-${locator}`} className="tag" href={`#/demo?${locator}`}>{contents}</a>
       </Popover>
     )
+  }
+
+  private onPost = (url: string) => {
+    this.setState({url});
+  }
+
+  private onClose = () => {
+    this.setState({url: ""});
   }
 
   render() {
@@ -79,12 +98,15 @@ class UnconnectedMediaParser extends React.PureComponent<MediaParserProps> {
           const innerText = domToReact(arg.children, parserOptions);
           let needSpacer = (typeof innerText === "string" && innerText[0] === " ");
           return (
-            <Tooltip hoverOpenDelay={500} hoverCloseDelay={1500} content={<Button className="item" icon="tag" />}>
+            <Popover interactionKind={PopoverInteractionKind.HOVER}
+                     hoverOpenDelay={500}
+                     hoverCloseDelay={1500}
+                     content={<AddItem url={arg.attribs.href} onClick={this.onPost} />}>
               <a className="untag" {...attributesToProps(arg.attribs)}>
                 { needSpacer && <span>&nbsp;</span> }
                 { domToReact(arg.children, parserOptions) }
               </a>
-            </Tooltip>
+            </Popover>
           );
         }
       }
@@ -93,8 +115,28 @@ class UnconnectedMediaParser extends React.PureComponent<MediaParserProps> {
     return (
       <div>
         { Parser(this.props.html, parserOptions) }
+        { this.state.url && <SubmissionPopover url={this.state.url} onClose={this.onClose} /> }
       </div>
     )
+  }
+}
+
+interface AddItemProps {
+  url: string;
+  onClick: (url: string) => void;
+}
+
+class AddItem extends React.PureComponent<AddItemProps> {
+  private onPost = () => {
+    this.props.onClick(this.props.url);
+  }
+
+  render() {
+    return (
+      <Button className="item" icon="tag" onClick={this.onPost}>
+        Add this link to Erasmus
+      </Button>
+    );
   }
 }
 
