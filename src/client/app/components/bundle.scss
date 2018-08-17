@@ -104,7 +104,7 @@ div#impress .step {
     color: $light-color;
 
     & > div {
-      padding: 10px 40px;
+      padding: 20px 40px;
     }
   }
 }
@@ -127,7 +127,12 @@ div.step.past div.slide.background {
 
 div.step.past div.slide.foreground {
   span.text {
+    transition: all 0.25s;
+
     opacity: 0.5;
+    background: rgba(0,0,0,0);
+    box-shadow: 0 0 10px 10px rgba(0,0,0,0);
+    border-bottom: 2px solid rgba(0,0,0,0);
   }
 
   span.text.highlighted {
@@ -136,7 +141,28 @@ div.step.past div.slide.foreground {
     background: white;
     border-radius: 3px;
     box-shadow: 0 0 10px 10px white;
-    text-decoration: underline;
-    text-decoration-color: $lowlight;
+    border-bottom: 2px solid $lowlight;
+  }
+}
+
+div#splash {
+  div.slide {
+    overflow: hidden;
+
+    div.logo {
+      background: white;
+      width: 100%;
+      text-align: right;
+    }
+  }
+
+  img.background {
+    z-index: -1;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: auto;
+    height: 100%;
+    transform: translateX(-50%);
   }
 }

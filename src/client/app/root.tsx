@@ -124,7 +124,7 @@ export class Root extends React.Component<any, RootState> {
         >
         {[
           this.createSplashSlide(<div>
-            splash goes here
+            <img className="background" src="./erasmusCollage.jpg" />
           </div>),
           this.createNextSlide(tocData.stateOfInternet.id,
             <div>
@@ -138,7 +138,7 @@ export class Root extends React.Component<any, RootState> {
                 <div className="title">{this.h("Erasmus is a")}&nbsp;
                   {this.h("curator-centric", "curatorCentric")}&nbsp;
                   {this.h("cross-medium", "crossMedium")}&nbsp;
-                  {this.h("recommendation platform", "recommendationPlatform")}
+                  {this.h("recommendation platform", "recommendationPlatform", <div className="recommendationPlatform-popover" />)}
                 </div>
               </div>
               <div className="subsection">
@@ -164,9 +164,12 @@ export class Root extends React.Component<any, RootState> {
   }
 
   // wrap text in a highlighted span
-  private h = (text: string, transitionId?: string) => {
+  private h = (text: string, transitionId?: string, popover?: JSX.Element) => {
     const highlighted = this.state.transitionId === transitionId ? "highlighted" : "";
-    return <span className={`text ${highlighted}`}>{text}</span>;
+    return <React.Fragment>
+      {highlighted && popover}
+      <span className={`text ${highlighted}`}>{text}</span>
+    </React.Fragment>;
   }
 
   private renderToc = () => {
