@@ -17,20 +17,11 @@ $info-width: 280px;
 $black: #111111;
 $mainColor: #464d51;
 $highlight: #98ffdc;
+$lowlight: #76ddba;
 $light-color: #9ba5af;
 $subheader-color: rgba(0, 0, 0, 0.5);
 
 $top-bar-height: 110px;
-
-div.slide {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  border-radius: 0;
-  width: 1050px;
-  height: 750px;
-}
 
 div.app-container {
   transition: all .5s;

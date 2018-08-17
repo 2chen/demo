@@ -1,29 +1,49 @@
 import * as React from "react";
 import {Provider} from "react-redux";
 import {createStore} from "redoodle";
-
-const {Impress, Step} = require("react-impressjs");
 import {reducers} from "./reducers/redux";
 import {INITIAL_STATE} from "./reducers/state";
-import {ErasmusApp} from "./components/ErasmusApp";
+import {values} from "lodash";
 
 import "./components/bundle.scss";
 import {ErasmusDispatcher} from "./reducers/dispatcher";
+import {NavState, transformSlidesForImpress, WindowSizeState, NavContext, defaultNavState} from "./slides";
+
+const {Impress, Step} = require("react-impressjs");
 
 const DEFAULT_DURATION = 250;
 
 const store = createStore(reducers, INITIAL_STATE);
 export const dispatcher = new ErasmusDispatcher(store);
 
-interface RootProps {
-  width?: number;
-  height?: number;
-  path?: string;
-  demoPath?: string;
+
+interface RootState extends Partial<NavState>, Partial<WindowSizeState> {
 }
 
-export class Root extends React.Component<any, RootProps> {
+interface StepContext extends RootState {
+  x: number;
+  y: number;
+}
+
+const tocData = {
+  stateOfInternet: {
+    id: "stateOfInternet",
+    title: "State of the Internet",
+  },
+  productIntro: {
+    id: "productIntro",
+    title: "Product Introduction",
+  },
+  keyDifferentiators: {
+    id: "keyDifferentiators",
+    title: "Key Differentiators",
+  },
+}
+
+export class Root extends React.Component<any, RootState> {
   private impress: any;
+  private lastId: string = "";
+  private stepContext: StepContext = undefined as any;
 
   constructor(props: any) {
     super(props);
@@ -32,8 +52,8 @@ export class Root extends React.Component<any, RootProps> {
 
   componentDidMount() {
     window.addEventListener("hashchange", () => {
-      const match = window.location.hash.match(/^#\/?([^?]*)\??(.*)/) || [];
-      this.setState({path: match[1], demoPath: match[2]});
+      const match = window.location.hash.match(/^#\/?([^-]*)-?(.*)/) || [];
+      this.setState({slideId: match[1], transitionId: match[2]});
     });
   }
 
@@ -45,7 +65,7 @@ export class Root extends React.Component<any, RootProps> {
     this.impress = impress;
 
     document.addEventListener("keydown", (e) => {
-      if (true || this.state.path !== "demo" && e.keyCode >= 32 && e.keyCode <= 40) {
+      if (e.keyCode >= 32 && e.keyCode <= 40) {
         switch (e.keyCode) {
           case 37: // Left
             this.impress.prev();
@@ -63,12 +83,13 @@ export class Root extends React.Component<any, RootProps> {
 
   private setDimensions = (div: HTMLDivElement) => {
     if (div) {
-      this.setState({width: div.clientWidth, height: div.clientHeight});
+      const size = {width: div.clientWidth, height: div.clientHeight};
+      this.setState(size);
     }
   };
 
   private renderDimensionFinderOrImpress = () => {
-    if (!this.state.height) {
+    if (!this.state.width || !this.state.height) {
       return (
         <div
           ref={(div: HTMLDivElement) => this.setDimensions(div)}
@@ -81,8 +102,19 @@ export class Root extends React.Component<any, RootProps> {
         </div>
       );
     } else {
-      const {width, height} = this.state;
-      return (
+      return this.renderSlides();
+    }
+  };
+
+  private renderSlides = () => {
+    const {width, height} = this.state;
+    this.stepContext = Object.assign({x: 0, y: 0}, this.state);
+    console.log(this.state.slideId, this.state.transitionId);
+    return (
+      <div className="root">
+        <div className="toc-container slide-aspect-ratio">
+          { this.renderToc() }
+        </div>
         <Impress
           ref={(impress: any) => this.impressDidMount(impress)}
           rootData={{
@@ -90,71 +122,132 @@ export class Root extends React.Component<any, RootProps> {
             height,
           }}
         >
-          <Step
-            id="prologue"
-            duration={DEFAULT_DURATION}
-            data={{width, height}}
-          >
-            <div className="slide">
-              introduction
+        {[
+          this.createSplashSlide(<div>
+            splash goes here
+          </div>),
+          this.createNextSlide(tocData.stateOfInternet.id,
+            <div>
+              {this.h("state of the internet goes here")}
             </div>
-          </Step>
-          <Step
-            id="team"
-            duration={DEFAULT_DURATION}
-            data={{y: height, width, height}}
-          >
-            <div className="slide">
-              team
+          ),
+          this.createNextSlide(tocData.productIntro.id,
+            <div className="slide-content">
+              <div className="title">{this.h("Product Introduction")}</div>
+              <div className="subsection">
+                <div className="title">{this.h("Erasmus is a")}&nbsp;
+                  {this.h("curator-centric", "curatorCentric")}&nbsp;
+                  {this.h("cross-medium", "crossMedium")}&nbsp;
+                  {this.h("recommendation platform", "recommendationPlatform")}
+                </div>
+              </div>
+              <div className="subsection">
+                <div className="title">{this.h("Key Features")}</div>
+                <div className="bullet">{this.h("Track and rate media consumption")}</div>
+                <div className="bullet">{this.h("Make and get recommendations across mediums and platforms")}</div>
+                <div className="bullet">{this.h("Discover new topics and curators to follow")}</div>
+              </div>
             </div>
-          </Step>
-          <Step
-            id="demo-preview"
-            duration={DEFAULT_DURATION}
-            data={{y: height*2, width, height}}
-          >
-            <div className="slide">
-              demo
+          ),
+          this.createTransition("recommendationPlatform"),
+          this.createTransition("crossMedium"),
+          this.createTransition("curatorCentric"),
+          this.createNextSlide(tocData.keyDifferentiators.id,
+            <div>
+              slide into my dms
             </div>
-          </Step>
-          <Step
-            id="demo"
-            duration={DEFAULT_DURATION}
-            data={{y: height*2, width, height}}
-          >
-            <ErasmusApp
-              previewing={this.state.path !== "demo"}
-              demoPath={this.state.demoPath}
-            />
-          </Step>
-          <Step
-            id="post-demo"
-            duration={DEFAULT_DURATION}
-            data={{y: height*3, width, height}}
-          >
-            <div className="slide">
-              demo q&a
-            </div>
-          </Step>
-          <Step
-            id="epilogue"
-            duration={DEFAULT_DURATION}
-            data={{y: height*4, width, height}}
-          >
-            <div className="slide">
-              epilogue
-            </div>
-          </Step>
-        </Impress>
-      );
-    }
-  };
+          ),
+        ]}
+       </Impress>
+      </div>
+    );
+  }
 
-  public render() {
+  // wrap text in a highlighted span
+  private h = (text: string, transitionId?: string) => {
+    const highlighted = this.state.transitionId === transitionId ? "highlighted" : "";
+    return <span className={`text ${highlighted}`}>{text}</span>;
+  }
+
+  private renderToc = () => {
+    return <div className="toc">
+      {
+        values(tocData).map(c => {
+          return <div><a key={c.id} href={`#/${c.id}`}>{c.title}</a></div>;
+        })
+      }
+    </div>;
+  }
+
+  render() {
     return (
       <Provider store={store}>
         {this.renderDimensionFinderOrImpress()}
       </Provider>
+    );
+  }
+
+  private createSplashSlide = (content: JSX.Element) => {
+    const id = "splash";
+    return (
+      <Step
+        id={id}
+        key={id}
+        duration={DEFAULT_DURATION}
+        data={Object.assign({}, this.stepContext)}
+      >
+        <div className="slide slide-aspect-ratio">
+          <div className="logo">
+            <div className="front">erasm</div>
+            <div className="back">us</div>
+          </div>
+          <div className="footer">
+            <div className="footer-left">Erasmus Technologies, Inc.</div>
+            <div className="footer-right">Proprietary and Confidential</div>
+          </div>
+          { content }
+        </div>
+      </Step>
+    );
+  }
+
+  private createNextSlide = (id: string, content: JSX.Element): JSX.Element => {
+    this.stepContext.y += this.stepContext.height!;
+    const res = (
+      <Step
+        id={id}
+        key={id}
+        duration={DEFAULT_DURATION}
+        data={Object.assign({}, this.stepContext)}
+      >
+        <div className="slide background slide-aspect-ratio">
+          <div className="logo">
+            <div className="front">erasm</div>
+            <div className="back">us</div>
+          </div>
+          <div className="footer">
+            <div className="footer-left">Erasmus Technologies, Inc.</div>
+            <div className="footer-right">Proprietary and Confidential</div>
+          </div>
+        </div>
+        <div className="slide foreground slide-aspect-ratio">
+          { content }
+        </div>
+      </Step>
+    );
+    this.lastId = id;
+    return res;
+  }
+
+  private createTransition = (transitionId: string) => {
+    const id = this.lastId + "-" + transitionId;
+    return (
+      <Step
+        id={id}
+        key={id}
+        duration={DEFAULT_DURATION}
+        data={Object.assign({}, this.stepContext)}
+      />
     );
   }
 }

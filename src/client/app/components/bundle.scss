@@ -8,15 +8,6 @@
 }
 
 @import '~react-impressjs/styles/impress-demo.css';
-div#react-impressjs {
-  width: 100%;
-  height: 100%;
-}
-div#impress .step {
-  width: 100vw;
-  height: 100vh;
-  padding: 0;
-}
 #demo.past, #demo.future {
   opacity: 1;
 }
@@ -28,3 +19,124 @@ div#impress .step {
 @import './common/header';
 @import './home/home';
 @import './ErasmusApp';
+
+$toc-width: 300px;
+$slide-margin: 20px;
+$slide-aspect-ratio: 4/3;
+
+div#react-impressjs {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.slide-aspect-ratio {
+  position: absolute;
+  max-width: 1080px;
+  max-height: 810px;
+  width: calc(100vw - #{$toc-width} - #{$slide-margin});
+  height: calc((100vw - #{$toc-width} - #{$slide-margin}) / #{$slide-aspect-ratio});
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+div.root {
+  div.toc-container {
+    left: calc(50% - #{$toc-width}/2);
+
+    div.toc {
+      width: $toc-width;
+      height: 100%;
+      padding: 20px;
+
+      & > div {
+        text-align: right;
+        height: 40px;
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+div#impress .step {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  opacity: 1;
+
+  div.logo {
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    color: $light-color;
+    font-size: 30px;
+    font-family: 'Leitura News Roman 1';
+
+    div {
+      display: inline-block;
+    }
+
+    div.front {
+      color: $lowlight;
+    }
+
+    div.back {
+      margin-left: 1px;
+      height: 35px;
+      border-bottom: 2px solid $lowlight;
+    }
+  }
+
+  div.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    font-size: 16px;
+    background: $logo-background;
+    color: $light-color;
+
+    & > div {
+      padding: 10px 40px;
+    }
+  }
+}
+
+div.slide {
+  transition: opacity 0.25s;
+  left: calc(50% + #{$toc-width}/2);
+  border-radius: 0;
+
+  text-shadow: none;
+}
+
+div.slide.foreground {
+  background: none;
+}
+
+div.step.past div.slide.background {
+  opacity: 0.5;
+}
+
+div.step.past div.slide.foreground {
+  span.text {
+    opacity: 0.5;
+  }
+
+  span.text.highlighted {
+    opacity: 1;
+
+    background: white;
+    border-radius: 3px;
+    box-shadow: 0 0 10px 10px white;
+    text-decoration: underline;
+    text-decoration-color: $lowlight;
+  }
+}
