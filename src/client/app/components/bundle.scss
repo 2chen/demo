@@ -23,6 +23,7 @@
 $toc-width: 300px;
 $slide-margin: 20px;
 $slide-aspect-ratio: 4/3;
+$footer-height: 80px;
 
 div#react-impressjs {
   position: absolute;
@@ -34,8 +35,8 @@ div#react-impressjs {
   position: absolute;
   max-width: 1080px;
   max-height: 810px;
-  width: calc(100vw - #{$toc-width} - #{$slide-margin});
-  height: calc((100vw - #{$toc-width} - #{$slide-margin}) / #{$slide-aspect-ratio});
+  width: 1080px; // calc(100vw - #{$toc-width} - #{$slide-margin});
+  height: 810px; // calc((100vw - #{$toc-width} - #{$slide-margin}) / #{$slide-aspect-ratio});
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
 }
@@ -49,10 +50,24 @@ div.root {
       height: 100%;
       padding: 20px;
 
+      font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
+
       & > div {
         text-align: right;
-        height: 40px;
+        margin-bottom: 20px;
         font-size: 24px;
+
+        a {
+          transition: all 0.25s;
+          color: $logo-background;
+          text-decoration: underline;
+          text-decoration-color: rgba(0,0,0,0) !important;
+        }
+      }
+
+      & > div.active > a {
+        text-decoration-color: $lowlight !important;
+        font-weight: bold;
       }
     }
   }
@@ -94,7 +109,7 @@ div#impress .step {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 80px;
+    height: $footer-height;
 
     display: flex;
     align-items: flex-end;
@@ -102,6 +117,8 @@ div#impress .step {
     font-size: 16px;
     background: $logo-background;
     color: $light-color;
+
+    border-top: 2px solid $lowlight;
 
     & > div {
       padding: 20px 40px;
@@ -113,35 +130,90 @@ div.slide {
   transition: opacity 0.25s;
   left: calc(50% + #{$toc-width}/2);
   border-radius: 0;
+  padding: 40px;
 
   text-shadow: none;
+  color: rgba(88,88,88, 1);
+  font-size: 24px;
+
+  div.title {
+    font-size: 36px;
+  }
+
+  div.subsection div.title {
+    font-size: 30px;
+  }
 }
 
 div.slide.foreground {
   background: none;
+
+  font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
 }
 
-div.step.past div.slide.background {
-  opacity: 0.5;
-}
+div.slide-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
 
-div.step.past div.slide.foreground {
-  span.text {
-    transition: all 0.25s;
+  display: flex;
+  flex-direction: column;
 
-    opacity: 0.5;
-    background: rgba(0,0,0,0);
-    box-shadow: 0 0 10px 10px rgba(0,0,0,0);
-    border-bottom: 2px solid rgba(0,0,0,0);
+  & > div.title {
+    font-weight: bold;
+    text-transform: uppercase;
+    //letter-spacing: 1px;
   }
 
-  span.text.highlighted {
-    opacity: 1;
+  div.section {
+    padding: 20px 40px;
+    height: calc(100% - #{$footer-height});
 
-    background: white;
-    border-radius: 3px;
-    box-shadow: 0 0 10px 10px white;
-    border-bottom: 2px solid $lowlight;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+
+  div.subsection {
+    & > div.title {
+      margin: 20px 0;
+      font-weight: bold;
+    }
+  }
+
+  div.bullet {
+    margin: 10px 0;
+  }
+
+  div.bullet::before {
+    content: '•';
+    margin-left: 5px;
+    margin-right: 15px;
+  }
+
+  div.sub-bullet {
+    margin: 5px 20px;
+  }
+
+  div.sub-bullet::before {
+    content: '-';
+    margin-left: 5px;
+    margin-right: 15px;
+  }
+
+  strong {
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-color: $lowlight;
+  }
+
+  .transition {
+    transition: all 0.25s;
+    opacity: 0;
+  }
+
+  .transition.current, .transition.past {
+    opacity: 1;
   }
 }
 
@@ -164,5 +236,154 @@ div#splash {
     width: auto;
     height: 100%;
     transform: translateX(-50%);
+  }
+}
+
+div#stateOfContentDiscovery {
+  span.content.future {
+    opacity: 1;
+  }
+
+  span.content.current, span.content.past {
+    font-weight: bold;
+    color: $lowlight;
+  }
+
+  div.subsection.truisms.future {
+    display: block;
+    opacity: 1;
+  }
+
+  div.subsection.truisms.current {
+    opacity: 0.5;
+  }
+
+  div.subsection.discovery.future, div.subsection.discovery > div.bullets, div.subsection {
+    display: block;
+  }
+
+  div.bullets.future {
+    display: block;
+    opacity: 0;
+  }
+
+  div.subsection.truisms.past, div.subsection.discovery.past, div.subsection.future {
+    display: none;
+  }
+
+  div.subsection.gaps.current {
+    display: block;
+    opacity: 0;
+  }
+
+  div.subsection.quality.past {
+    display: block;
+
+    & > div.bad {
+      opacity: 0.5;
+    }
+    & > div.good.past {
+      opacity: 0.5;
+    }
+  }
+
+  div.bullets {
+    div.bullet {
+      display: flex;
+
+      & > div.label {
+        //font-weight: bold;
+      }
+
+      & > div.example {
+        color: $light-blue;
+        margin-left: auto;
+
+        & > img {
+          height: 36px;
+          width: auto;
+          margin-left: 10px;
+        }
+      }
+    }
+
+    div.sub-bullet.future {
+      display: none;
+    }
+  }
+}
+
+div#productIntro {
+  .future {
+    opacity: 1;
+  }
+
+  div.slide.highlight {
+    &.background {
+      opacity: 0.75;
+    }
+
+    &.foreground {
+      span.text {
+        transition: all 0.25s;
+
+        opacity: 0.5;
+        background: rgba(0,0,0,0);
+        box-shadow: 0 0 10px 10px rgba(0,0,0,0);
+        border-bottom: none;
+      }
+
+      span.text.underline.current {
+        opacity: 1;
+
+        background: white;
+        border-radius: 3px;
+        box-shadow: 0 0 10px 10px white;
+        border-bottom: 2px solid $lowlight;
+        font-weight: bold;
+      }
+    }
+  }
+
+  div.subsection.one-liner {
+    flex: 1;
+  }
+
+  div.subsection.core-features {
+    flex: 2;
+  }
+
+  div.demo {
+    position: absolute;
+    right: 20px;
+    bottom: 60px;
+    height: 540px;
+
+    img {
+      height: 100%;
+      width: auto;
+    }
+  }
+}
+
+div#pathToRevenue, div#failureModes, div#deepDive {
+  div.subsection.current {
+    flex: 1;
+  }
+
+  div.subsection.past, div.subsection.future {
+    opacity: 1;
+
+    div.title {
+      opacity: 0.5;
+    }
+    div.bullet, div.sub-bullet {
+      display: none;
+
+    }
+  }
+
+  span.answer {
+    margin-left: 10px;
   }
 }
