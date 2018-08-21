@@ -52,7 +52,7 @@ const webpackConfig = {
 
 webpackConfig.output = output;
 
-if (isProduction) {
+if (false && isProduction) {
   webpackConfig.entry = [path.join(srcPath, 'app/index')];
   webpackConfig.devtool = 'source-map';
   output.publicPath = '/static';

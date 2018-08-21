@@ -3,7 +3,7 @@ import {Provider} from "react-redux";
 import {createStore} from "redoodle";
 import {reducers} from "./reducers/redux";
 import {INITIAL_STATE} from "./reducers/state";
-import {values} from "lodash";
+import {debounce, values} from "lodash";
 
 import "./components/bundle.scss";
 import {ErasmusDispatcher} from "./reducers/dispatcher";
@@ -76,6 +76,7 @@ export class Root extends React.Component<any, RootState> {
   }
 
   componentDidMount() {
+    window.addEventListener("resize", this.windowResized);
     window.addEventListener("hashchange", () => {
       const match = window.location.hash.match(/^#\/?([^-]*)-?(.*)/) || [];
       this.setState({slideId: match[1], transitionId: match[2] ? Number(match[2]) : 0});
@@ -106,6 +107,8 @@ export class Root extends React.Component<any, RootState> {
     }, false);
   };
 
+  private windowResized = debounce(() => document.location.reload(), 500, {trailing: true});
+
   private setDimensions = (div: HTMLDivElement) => {
     if (div) {
       const size = {width: div.clientWidth, height: div.clientHeight};
@@ -132,9 +135,17 @@ export class Root extends React.Component<any, RootState> {
   };
 
   private renderSlides = () => {
+    if (!this.impress) {
+      const match = window.location.hash.match(/^#\/?([^-]*)-?(.*)/) || [];
+      if (match[1]  ) {
+        setTimeout(() => {
+          window.location.href = "#/" + match[1] + (match[2] ? `-${match[2]}` : "");
+        }, 0);
+      }
+    }
+
     const {width, height} = this.state;
     this.stepContext = Object.assign({x: 0, y: 0}, this.state);
-    console.log(this.state.slideId, this.state.transitionId);
     return (
       <div className="root">
         <div className="toc-container slide-aspect-ratio">
