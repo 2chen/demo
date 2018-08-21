@@ -156,18 +156,26 @@ export class Root extends React.Component<any, RootState> {
               <div className="title">Problem Statement</div>
               <div className="section">
                 <div className={this.t("subsection truisms", 1, 3)}>
-                  <div className="title">Truisms</div>
+                  <div className="title">Axioms / Truisms</div>
                   <div className="bullet">Discovery and recommendation are two sides of the same coin</div>
                   <div className="bullet">Advertisements are a type of recommendation</div>
-                  <div className="bullet"><strong>Better content discovery leads to better advertisements</strong></div>
+                  <div className="bullet">
+                    <span className="bold">Improving content discovery improves advertisements</span>
+                  </div>
                 </div>
                 <div className={this.t("subsection discovery", 1, 3)}>
                   <div className="title">
-                    <div className="label">How do we discover <strong>meaningful <span className={this.t("content", 3)}>{this.state.transitionId! >= 3 ? "books" : "content"}?</span></strong></div>
+                    <div className="label">How do we discover&nbsp;
+                      <strong>meaningful&nbsp;
+                        <span className={this.t("content", 3)}>
+                          {this.state.transitionId! >= 3 ? "books" : "content"}
+                        </span>
+                      </strong>?
+                    </div>
                   </div>
                   <div className={this.t("bullets", 2)}>
                     <div className="bullet">
-                      <div className="label">Democratized rankings</div>
+                      <div className="label">Democratized ratings</div>
                       <div className={this.t("example", 3)}>
                         <img src="https://juliaquinn.com/WP/wp-content/uploads/2016/07/NYT-Bestseller-logo-818x200.png" />
                       </div>
@@ -187,32 +195,40 @@ export class Root extends React.Component<any, RootState> {
                     </div>
                     <div className="bullet">
                       <div className="label">Word-of-mouth</div>
-                      <div className={this.t("example", 3)}>Book clubs, recommendation from a friend</div>
+                      <div className={this.t("example", 3)}>Book clubs, recommendations from a friend</div>
                     </div>
                   </div>
                 </div>
-                <div className={this.t("subsection quality", 4)}>
-                  <div className="title">How good are these recommendations?</div>
-                  <div className="bad">
-                    <div className="bullet">Democratized rankings work well for mainstream content</div>
-                    <div className="bullet">Machine learning recommenders:</div>
-                      <div className="sub-bullet">Work very well in certain cases (e.g. Amazon: "Users also bought")</div>
-                      <div className="sub-bullet">Personalized but not personal</div>
+                <div className={this.t("subsection quality", 4, 6)}>
+                  <div className={this.t("title", 4, 5)}>How relevant are these recommendations?</div>
+                  <div className={this.t("bad", 4)}>
+                    <div className="bullet"><span className="bold">Democratized ratings</span> work well for mainstream content (e.g., Rotten Tomatoes)</div>
+                    <div className="bullet"><span className="bold">Machine learning recommenders</span> are as good as the input data</div>
+                    <div className="sub-bullet">Work very well in certain cases (e.g. Amazon: "Users also bought")</div>
+                    <div className="sub-bullet">Personalized but not personal</div>
                   </div>
                   <div className={this.t("good", 5)}>
-                    <div className="bullet">Eminence, word-of-mouth offer far better personalized recommendations</div>
-                    <div className="bullet">Word-of-mouth creates a shared cultural experience</div>
-                    <div className="bullet"><strong>Eminence and word-of-mouth are done ad hoc</strong></div>
+                    <div className="bullet">
+                      <span className="bold">Eminence</span> and&nbsp;
+                      <span className="bold">word-of-mouth</span> recommendations
+                    </div>
+                    <div className="sub-bullet">Can effectively explore across topic, platform, and medium</div>
+                    <div className="sub-bullet">Don't necessarily have to be personalized to be effective because they are <span className="bold">personal</span></div>
+                    <div className="sub-bullet"><span className="bold">Word-of-mouth</span> can create a compelling shared experience</div>
+                    <div className={this.t("bullet", 6)}>
+                      <strong>But these recommendations are currently done ad hoc</strong>
+                    </div>
                   </div>
                 </div>
-                <div className={this.t("subsection gaps", 4, 5)}>
-                  <div className="title">Two Gaps</div>
-                  <div className="bullet">No way to easily save recommendations</div>
+                <div className={this.t("subsection gaps", 4, 6)}>
+                  <div className="title">Two Important Gaps</div>
+                  <div className="bullet">No way to easily save and track recommendations</div>
                   <div className="bullet">No place to share recommendations with friends/followers</div>
                 </div>
               </div>
             </div>
           ),
+          this.createTransition(),
           this.createTransition(),
           this.createTransition(),
           this.createTransition(),
@@ -225,24 +241,44 @@ export class Root extends React.Component<any, RootState> {
               <div className="section">
                 <div className="subsection one-liner">
                   <div className="title">{this.r("Erasmus is a")}&nbsp;
-                    <span className={this.t("text underline", 1)}>curator-centric</span>,<br/>
+                    <span className={this.t("text underline", 1)}>curator-centric,</span><br/>
                     <span className={this.t("text underline", 2)}>cross-medium</span>&nbsp;
                     {this.r("recommendation platform")}
                   </div>
                 </div>
                 <div className="subsection core-features">
                   <div className="title">{this.r("Core Functionality")}</div>
-                  <div className="bullet">{this.r("Recommend content to friends and followers")}</div>
-                  <div className="bullet">{this.r("Discover new content, topics and curators to follow")}</div>
-                  <div className="bullet">{this.r("Digest: read, listen, and watch in app or browser")}</div>
-                  <div className="bullet">{this.r("Discuss and review content, track recommendations")}</div>
+                  <div className="bullet">
+                    <span className={this.t("text underline", 4)}>
+                      <span className="bold">Recommend</span> content to friends and followers
+                    </span>
+                  </div>
+                  <div className="bullet">
+                    <span className={this.t("text underline", 5)}>
+                      <span className="bold">Discover</span> new content, topics and curators to follow
+                    </span>
+                  </div>
+                  <div className="bullet">
+                    <span className={this.t("text underline", 6)}>
+                      <span className="bold">Digest</span>, read, listen, and watch in app or browser
+                    </span>
+                  </div>
+                  <div className="bullet">
+                    <span className={this.t("text underline", 7)}>
+                      <span className="bold">Discuss</span> and review content, track recommendations
+                    </span>
+                   </div>
                 </div>
                 <div className="demo">
                   <img src="iphone.png" />
                 </div>
               </div>
             </div>
-          , (this.state.transitionId === 1 || this.state.transitionId === 2) ? "highlight" : ""),
+          , this.state.transitionId! > 0 && this.state.transitionId! !== 3 ? "highlight" : ""),
+          this.createTransition(),
+          this.createTransition(),
+          this.createTransition(),
+          this.createTransition(),
           this.createTransition(),
           this.createTransition(),
           this.createTransition(),
@@ -268,6 +304,7 @@ export class Root extends React.Component<any, RootState> {
                   </div>
                   <div className="bullet">
                     <span className="question">Is it monetizable?</span>
+                    <span className={this.t("answer", 2)}><strong>Yes!</strong></span>
                   </div>
                   <div className={this.t("answer", 2)}>
                     <div className="sub-bullet">Great data for targeting like Goodreads</div>
@@ -280,7 +317,7 @@ export class Root extends React.Component<any, RootState> {
                   <div className="bullet">Start small with:</div>
                   <div className="sub-bullet">Broad topics within narrow set of media: podcasts, articles, longform</div>
                   <div className="sub-bullet">Broad media within narrow set of topics: tech, entrepreneurship, self-improvement</div>
-                  <div className="bullet">build ontological model of this universe internally</div>
+                  <div className="bullet">Build ontological model of this universe internally</div>
                   <div className="bullet">Work closely with influencers within these verticals</div>
                   <div className={this.t("bullet", 4)}><strong>We believe this is monetizable at a relatively small scale</strong></div>
                 </div>
@@ -288,6 +325,7 @@ export class Root extends React.Component<any, RootState> {
                   <div className="title">One to "Many Revenue"</div>
                   <div className="bullet">Open source ontological framework (like TMDB)</div>
                   <div className="bullet">Expand media, topics, and influencer engagement</div>
+                  <div className="bullet">TODO</div>
                 </div>
               </div>
             </div>
@@ -302,11 +340,11 @@ export class Root extends React.Component<any, RootState> {
               <div className="title">Failure Modes</div>
               <div className="section">
                 <div className={this.t("subsection", 0)}>
-                  <div className="title">Early Game Problems</div>
+                  <div className="title">"Early Game" Problems</div>
                   <div className="bullet">Lack of user or influencer buy-in</div>
+                  <div className="sub-bullet">Initially, users and influencers bases will overlap significantly</div>
                   <div className="sub-bullet">Well-connected in user/influencer space</div>
                   <div className="sub-bullet">To influencers: pitch as "intellectual identity" platform</div>
-                  <div className="sub-bullet">Users and influencers will overlap significantly</div>
                   <div className="sub-bullet">Iterate closely with both groups</div>
 
                   <div className="bullet">Bad mobile UX</div>
@@ -316,7 +354,7 @@ export class Root extends React.Component<any, RootState> {
                   <div className="sub-bullet">Iterate closely with mobile users</div>
                 </div>
                 <div className={this.t("subsection", 1)}>
-                  <div className="title">Late Game Problems</div>
+                  <div className="title">"Late Game" Problems</div>
 
                   <div className="bullet">Data scale too big</div>
                   <div className="sub-bullet">Optimize for simple data model and fast user load times</div>
@@ -324,7 +362,7 @@ export class Root extends React.Component<any, RootState> {
                   <div className="sub-bullet">Flexible framework for future migration</div>
 
                   <div className="bullet">Gettin' gamed</div>
-                  <div className="sub-bullet">Data model designed to be able to retroactively deal with this kind of gaming</div>
+                  <div className="sub-bullet">Data model designed to be able to retroactively deal with gaming</div>
                   <div className="sub-bullet">Shadow banning</div>
                 </div>
               </div>
@@ -338,7 +376,7 @@ export class Root extends React.Component<any, RootState> {
                 <div className={this.t("subsection", 0)}>
                   <div className="title">Monetization</div>
                   <div className="bullet">Direct ads for content</div>
-                  <div className="bullet">Content-aware ads (e.g. link to a brand of preworkout featured in a podcast episode)</div>
+                  <div className="bullet">Content-aware ads (e.g. link to a brand of pre-workout featured in a podcast episode)</div>
                   <div className="bullet">Curators are both advertisers and advertisees:</div>
                   <div className="sub-bullet">
                     as a rising curator, you may pay to show up in searches "entrepreneurship"

@@ -48,7 +48,7 @@ div.root {
     div.toc {
       width: $toc-width;
       height: 100%;
-      padding: 20px;
+      padding: 20px 10px;
 
       font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
 
@@ -58,16 +58,19 @@ div.root {
         font-size: 24px;
 
         a {
+          padding: 6px 5px 5px 10px;
           transition: all 0.25s;
           color: $logo-background;
-          text-decoration: underline;
-          text-decoration-color: rgba(0,0,0,0) !important;
+          //text-decoration: underline;
+          //text-decoration-color: rgba(0,0,0,0) !important;
+          border-right: 4px solid rgba(0,0,0,0);
         }
       }
 
       & > div.active > a {
-        text-decoration-color: $lowlight !important;
+        border-right: 4px solid $lowlight;
         font-weight: bold;
+        background: rgba(255,255,255,0.5);
       }
     }
   }
@@ -133,16 +136,6 @@ div.slide {
   padding: 40px;
 
   text-shadow: none;
-  color: rgba(88,88,88, 1);
-  font-size: 24px;
-
-  div.title {
-    font-size: 36px;
-  }
-
-  div.subsection div.title {
-    font-size: 30px;
-  }
 }
 
 div.slide.foreground {
@@ -154,15 +147,19 @@ div.slide.foreground {
 div.slide-content {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 40px);
 
   display: flex;
   flex-direction: column;
 
+  color: rgba(88,88,88, 1);
+  font-size: 24px;
+
   & > div.title {
+    color: $lowlight;
+    font-size: 36px;
     font-weight: bold;
     text-transform: uppercase;
-    //letter-spacing: 1px;
   }
 
   div.section {
@@ -176,6 +173,7 @@ div.slide-content {
 
   div.subsection {
     & > div.title {
+      font-size: 30px;
       margin: 20px 0;
       font-weight: bold;
     }
@@ -205,6 +203,10 @@ div.slide-content {
     font-weight: 800;
     text-decoration: underline;
     text-decoration-color: $lowlight;
+  }
+
+  span.bold {
+    font-weight: bold;
   }
 
   .transition {
@@ -240,50 +242,94 @@ div#splash {
 }
 
 div#stateOfContentDiscovery {
-  span.content.future {
-    opacity: 1;
-  }
-
-  span.content.current, span.content.past {
+  span.content {
     font-weight: bold;
-    color: $lowlight;
+    &.past, &.current {color: $lowlight;}
+    &.future { opacity: 1; }
   }
 
-  div.subsection.truisms.future {
-    display: block;
-    opacity: 1;
+  div.subsection.truisms {
+    &.future {
+      display: block;
+      opacity: 1;
+    }
+    &.current {
+      opacity: 0.5;
+    }
+    &.past {
+      display: none;
+    }
   }
 
-  div.subsection.truisms.current {
-    opacity: 0.5;
+  div.subsection.discovery {
+    &.future {
+      display: block;
+    }
+
+    &.past {
+      display: none;
+    }
+
+    & > div.bullets {
+      display: block;
+
+      &.future {
+        display: block;
+        opacity: 0;
+      }
+    }
   }
 
-  div.subsection.discovery.future, div.subsection.discovery > div.bullets, div.subsection {
-    display: block;
-  }
-
-  div.bullets.future {
-    display: block;
-    opacity: 0;
-  }
-
-  div.subsection.truisms.past, div.subsection.discovery.past, div.subsection.future {
+  div.subsection.future {
     display: none;
   }
 
-  div.subsection.gaps.current {
-    display: block;
-    opacity: 0;
+  div.subsection.gaps {
+    position: absolute;
+    font-weight: bold;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+
+    padding: 10px 40px 30px;
+    background: $logo-background;
+    box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.25);
+    color: rgba(255,255,255,0.75);
+    border-radius: 20px;
+
+    width: 800px;
+
+    div.title {
+      color: $lowlight;
+    }
+
+    &.current {
+      display: block;
+      opacity: 0;
+    }
   }
 
-  div.subsection.quality.past {
-    display: block;
+  div.subsection.quality {
+    &.past, &.current {
+      display: block;
 
-    & > div.bad {
-      opacity: 0.5;
-    }
-    & > div.good.past {
-      opacity: 0.5;
+      div.title.past {
+        opacity: 0.5;
+      }
+
+      & > div.bad.past {
+        opacity: 0.5;
+      }
+
+      & > div.good.past {
+        & > div.bullet.current {
+          opacity: 1;
+        }
+
+        & > div.bullet, & > div.sub-bullet {
+          opacity: 0.5;
+        }
+      }
     }
   }
 
@@ -292,15 +338,15 @@ div#stateOfContentDiscovery {
       display: flex;
 
       & > div.label {
-        //font-weight: bold;
+        width: 43%;
       }
 
       & > div.example {
-        color: $light-blue;
-        margin-left: auto;
+        color: $light-color;
+        font-style: italic;
 
         & > img {
-          height: 36px;
+          height: 48px;
           width: auto;
           margin-left: 10px;
         }
@@ -320,11 +366,11 @@ div#productIntro {
 
   div.slide.highlight {
     &.background {
-      opacity: 0.75;
+      opacity: 0.5;
     }
 
     &.foreground {
-      span.text {
+      .text {
         transition: all 0.25s;
 
         opacity: 0.5;
@@ -333,7 +379,7 @@ div#productIntro {
         border-bottom: none;
       }
 
-      span.text.underline.current {
+      .text.underline.current {
         opacity: 1;
 
         background: white;
@@ -345,8 +391,20 @@ div#productIntro {
     }
   }
 
+  span.bold {
+    color: $lowlight;
+  }
+
   div.subsection.one-liner {
     flex: 1;
+
+    div.title {
+      font-weight: normal;
+    }
+
+    .text.underline {
+      font-weight: bold;
+    }
   }
 
   div.subsection.core-features {
