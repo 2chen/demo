@@ -84,7 +84,7 @@ div#impress .step {
   padding: 0;
   opacity: 1;
 
-  & > div.slide.background > div.logo {
+  &#splash div.logo, & > div.slide.background > div.logo {
     padding: 20px;
     position: absolute;
     top: 0;
@@ -309,6 +309,12 @@ div#stateOfContentDiscovery {
       display: block;
       opacity: 0;
     }
+
+    span.underline {
+      color: white;
+      text-decoration: underline;
+      text-decoration-color: $lowlight;
+    }
   }
 
   div.subsection.quality {
@@ -324,7 +330,7 @@ div#stateOfContentDiscovery {
       }
 
       & > div.good.past {
-        & > div.bullet.current {
+        & > div.bullet.current, & > div.sub-bullet.current {
           opacity: 1;
         }
 
@@ -371,7 +377,7 @@ div#productIntro {
       opacity: 0.5;
     }
 
-    &.foreground {
+    &.foreground div.subsection {
       .text {
         transition: all 0.25s;
 

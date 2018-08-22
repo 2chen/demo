@@ -197,7 +197,7 @@ export class Demo extends React.PureComponent<DemoProps> {
           </div>
           <iframe sandbox="allow-same-origin allow-scripts allow-top-navigation allow-popups" scrolling="no" width="100%"
                   height="185" frameBorder="0"
-                  src="https://embed.radiopublic.com/e?if=the-tim-ferriss-show-MG7paW&ge=s1!af05b"></iframe>
+                  src="https://embed.radiopublic.com/e?if=the-tim-ferriss-show-MG7paW&ge=s1!af05b" />
           <div className="attribution">
             <div>Series: <span className="highlight">The Tim Ferriss Show</span></div>
             <div>Author: <span className="highlight">Tim Ferriss</span></div>
@@ -248,9 +248,61 @@ export class Demo extends React.PureComponent<DemoProps> {
           { this.renderRecommender() }
         </div>
       );
+    } else if (this.props.transitionId === 7) {
+      return (
+        <div className="chat">
+          <div className="nav-bar">
+            <div className="nav-bar-content">
+              <div className="left"><Icon icon="chevron-left" iconSize={Icon.SIZE_LARGE}/></div>
+              <div className="center">Catherine Mao</div>
+            </div>
+          </div>
+          <div className="messages">
+            { this.renderCathyMessage(
+              renderFeedItem({
+                recommendation: renderAttribution({
+                  image: "https://upload.wikimedia.org/wikipedia/commons/b/b4/The_Atlantic_magazine_logo.svg",
+                  author: "Robert H. Frank",
+                  action: "published in",
+                  source: "The Atlantic",
+                }),
+                image: "https://cdn.theatlantic.com/assets/media/img/2016/04/Luck_and_gratitude_DEF_web_2/facebook.jpg?1522795794",
+                title: "Why Luck Matters More Than You Might Think",
+              })
+            )}
+            { this.renderYichenMessage(<div className="text">
+              <div className="blockquote">Wealthy people overwhelmingly attribute their own success to hard work rather than to factors like luck or being in the right place at the right time</div>
+              Huh. Maybe reflecting on how lucky we are can be like a new form of meditation
+            </div>)}
+          </div>
+          <div className="chat-bar">
+            <Icon className="green" icon="add" />
+            <Icon icon="citation" />
+            <input type="text" placeholder="    Message Catherine" />
+          </div>
+        </div>
+      )
     }
 
     return null;
+  }
+
+  private renderCathyMessage = (content: JSX.Element) => {
+    return (
+      <div className="message left">
+        <div className="picture"><img src="https://media.licdn.com/dms/image/C5603AQFgUMzMrvFnCQ/profile-displayphoto-shrink_800_800/0?e=1540425600&v=beta&t=5udgTJ8_kO8uv-3uNHw8svn4wQEe8qF_E7VJXw7KI4s" /></div>
+        <div className="message-content">{content}</div>
+      </div>
+    );
+  }
+
+  private renderYichenMessage = (content: JSX.Element) => {
+    return (
+      <div className="message right">
+        <div className="picture"><img src="./yichenxing.png" /></div>
+        <div className="message-content">{content}</div>
+      </div>
+    );
   }
 
   private renderRecommender = () => {
@@ -283,7 +335,7 @@ export class Demo extends React.PureComponent<DemoProps> {
               placeholder={"Personalize your recommendation"}
             />
             <div className="button-holder">
-              <button className="submit">Send Recommendation</button>
+              <button className="submit">Recommend!</button>
             </div>
           </div>
         </div>

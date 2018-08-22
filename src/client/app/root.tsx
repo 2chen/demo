@@ -230,17 +230,23 @@ export class Root extends React.Component<any, RootState> {
                       <span className="bold">word-of-mouth</span> recommendations
                     </div>
                     <div className="sub-bullet">Can effectively explore across topic, platform, and medium</div>
-                    <div className="sub-bullet">Don't necessarily have to be personalized to be effective because they are <span className="bold">personal</span></div>
+                    <div className="sub-bullet">Effective because they are <span className="bold">personal</span></div>
                     <div className="sub-bullet"><span className="bold">Word-of-mouth</span> can create a compelling shared experience</div>
                     <div className={this.t("bullet", 6)}>
-                      <strong>But these recommendations are currently done ad hoc</strong>
+                      <strong>These recommendations are currently done ad hoc</strong>
+                    </div>
+                    <div className={this.t("sub-bullet", 6)}>
+                      Made through email, text, tweet, blogpost, etc.
+                    </div>
+                    <div className={this.t("sub-bullet", 6)}>
+                      Tracked through memory, note apps, bookmark, etc., and <strong>often forgotten</strong>
                     </div>
                   </div>
                 </div>
                 <div className={this.t("subsection gaps", 4, 6)}>
-                  <div className="title">Two Important Gaps</div>
-                  <div className="bullet">No way to easily save and track recommendations</div>
-                  <div className="bullet">No place to share recommendations with friends/followers</div>
+                  <div className="title">Two Clear Gaps</div>
+                  <div className="bullet">No way to <span className="underline">easily</span> save and track recommendations</div>
+                  <div className="bullet">No <span className="underline">single place</span> to share recommendations with friends/followers</div>
                 </div>
               </div>
             </div>
@@ -267,17 +273,17 @@ export class Root extends React.Component<any, RootState> {
                   <div className="title">{this.r("Core Functionality")}</div>
                   <div className="bullet">
                     <span className={this.t("text underline", 4)}>
-                      <span className="bold">Recommend</span> content to friends and followers
-                    </span>
-                  </div>
-                  <div className="bullet">
-                    <span className={this.t("text underline", 5)}>
                       <span className="bold">Discover</span> new content, topics and curators to follow
                     </span>
                   </div>
                   <div className="bullet">
+                    <span className={this.t("text underline", 5)}>
+                      <span className="bold">Digest</span>: read, listen, and watch in app or browser
+                    </span>
+                  </div>
+                  <div className="bullet">
                     <span className={this.t("text underline", 6)}>
-                      <span className="bold">Digest</span>, read, listen, and watch in app or browser
+                      <span className="bold">Recommend</span> content to friends and followers
                     </span>
                   </div>
                   <div className="bullet">
@@ -329,18 +335,21 @@ export class Root extends React.Component<any, RootState> {
                 </div>
                 <div className={this.t("subsection zero-to-one", 3, 4)}>
                   <div className="title">Zero-to-One</div>
-                  <div className="bullet">Start small with:</div>
-                  <div className="sub-bullet">Broad topics within narrow set of media: podcasts, articles, longform</div>
-                  <div className="sub-bullet">Broad media within narrow set of topics: tech, entrepreneurship, self-improvement</div>
+                  <div className="bullet">Start small with both:</div>
+                  <div className="sub-bullet"><strong>Broad topics</strong> within narrow set of media: podcasts, articles, longform</div>
+                  <div className="sub-bullet"><strong>Broad media</strong> within narrow set of topics: tech, entrepreneurship, self-improvement</div>
                   <div className="bullet">Build ontological model of this universe internally</div>
                   <div className="bullet">Work closely with influencers within these verticals</div>
                   <div className={this.t("bullet", 4)}><strong>We believe this is monetizable at a relatively small scale</strong></div>
                 </div>
                 <div className={this.t("subsection one-to-many", 5)}>
                   <div className="title">One to "Many Revenue"</div>
-                  <div className="bullet">Open source ontological framework (like TMDB)</div>
                   <div className="bullet">Expand media, topics, and influencer engagement</div>
-                  <div className="bullet">TODO</div>
+                  <div className="bullet">Open source ontological framework (like TMDB)</div>
+                  <div className="bullet">Monetize through</div>
+                  <div className="sub-bullet">Direct ads for content/curators</div>
+                  <div className="sub-bullet">Content-aware advertising</div>
+                  <div className="sub-bullet">Data sharing with content creators and curators</div>
                 </div>
               </div>
             </div>
@@ -358,15 +367,15 @@ export class Root extends React.Component<any, RootState> {
                   <div className="title">"Early Game" Problems</div>
                   <div className="bullet">Lack of user or influencer buy-in</div>
                   <div className="sub-bullet">Initially, users and influencers bases will overlap significantly</div>
-                  <div className="sub-bullet">Well-connected in user/influencer space</div>
+                  <div className="sub-bullet">Well connected in user/influencer space</div>
                   <div className="sub-bullet">To influencers: pitch as "intellectual identity" platform</div>
                   <div className="sub-bullet">Iterate closely with both groups</div>
 
                   <div className="bullet">Bad mobile UX</div>
-                  <div className="sub-bullet">One of StumbleUpon's failure modes was failing to adapt to the emerging mobile world</div>
-                  <div className="sub-bullet">The development landscape for mobile has fundamentally changed since 2009</div>
+                  <div className="sub-bullet">StumbleUpon failed to adapt to the emerging mobile world</div>
+                  <div className="sub-bullet">Mobile development landscape has improved greatly since 2009</div>
                   <div className="sub-bullet">Leverage ReactNative to share code with web</div>
-                  <div className="sub-bullet">Iterate closely with mobile users</div>
+                  <div className="sub-bullet">Ensure proportional representation of mobile users in beta</div>
                 </div>
                 <div className={this.t("subsection", 1)}>
                   <div className="title">"Late Game" Problems</div>
@@ -377,6 +386,7 @@ export class Root extends React.Component<any, RootState> {
                   <div className="sub-bullet">Flexible framework for future migration</div>
 
                   <div className="bullet">Gettin' gamed</div>
+                  <div className="sub-bullet">Proactive countermeasures like Facebook login, IP tracking, etc</div>
                   <div className="sub-bullet">Data model designed to be able to retroactively deal with gaming</div>
                   <div className="sub-bullet">Shadow banning</div>
                 </div>
@@ -390,34 +400,39 @@ export class Root extends React.Component<any, RootState> {
               <div className="section">
                 <div className={this.t("subsection", 0)}>
                   <div className="title">Monetization</div>
-                  <div className="bullet">Direct ads for content</div>
+                  <div className="bullet">Direct ads for content/curators</div>
                   <div className="bullet">Content-aware ads (e.g. link to a brand of pre-workout featured in a podcast episode)</div>
                   <div className="bullet">Curators are both advertisers and advertisees:</div>
                   <div className="sub-bullet">
-                    as a rising curator, you may pay to show up in searches "entrepreneurship"
+                    As a rising curator, you may pay to show up in searches "entrepreneurship"
                   </div>
                   <div className="sub-bullet">
-                    as a mature curator, you may sponsor a product or another curator
+                    As a mature curator, you may sponsor a product or another curator
                   </div>
+                  <div className="bullet">Data "sharing" with content creators and curators</div>
                 </div>
                 <div className={this.t("subsection", 1)}>
                   <div className="title">Data Model</div>
-                  <div className="bullet">Semi-public data: Freebase / TMDB / Wikidata-like collaboratively edited database</div>
-                  <div className="bullet">Private data: reviews, recommendations, etc.</div>
+                  <div className="bullet"><span className="bold">"Public" (a priori) data</span></div>
+                  <div className="sub-bullet">Content titles, categories, authors, and their interconnections</div>
+                  <div className="sub-bullet">Can be open-sourced to leverage crowd-sourcing</div>
+                  <div className="sub-bullet">Influenced by Freebase / TMDB / Wikidata</div>
+                  <div className="bullet"><span className="bold">Private data:</span> Reviews, recommendations, views, etc.</div>
                 </div>
                 <div className={this.t("subsection", 2)}>
                   <div className="title">Collaborative Filtering</div>
-                  <div className="bullet">Unlike Reddit's democratic system, we aim for a "rich get richer" system</div>
-                  <div className="bullet">Key difference from Reddit:</div>
+                  <div className="bullet">Key differences from Reddit's model</div>
+                  <div className="sub-bullet">Reddit has a "direct democratic" system</div>
+                  <div className="sub-bullet">We aim for more of a <span className="bold">representative democracy</span></div>
                   <div className="sub-bullet">
-                    Your overall reputation affects the prominence of your recommendations
+                    Overall reputation affects the prominence of recommendations
                   </div>
                   <div className="sub-bullet">
-                    The similarity of other users to you affects the prominence of your recommendations
+                    Similarity of other users to you affects the prominence of recommendations
                   </div>
-                  <div className="bullet">Two improvements over Reddit's model:</div>
+                  <div className="bullet">Resulting in two improvements:</div>
                   <div className="sub-bullet">
-                    Celebrities can actually monetize their fame
+                    Influencers can actually <span className="bold">monetize their influence</span>
                   </div>
                   <div className="sub-bullet">
                     Your feedback directly improves your content

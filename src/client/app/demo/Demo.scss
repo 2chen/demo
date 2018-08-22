@@ -256,91 +256,91 @@ div.demo > div.demo-sizer > div.content {
       flex: 1;
       padding: 5px 5px 5px 2.5px;
     }
+  }
 
-    div.item {
-      border-radius: 5px;
-      background: white;
-      padding: 10px;
+  div.feed div.item, div.chat div.item {
+    border-radius: 5px;
+    background: white;
+    padding: 10px;
+    margin-bottom: 5px;
+
+    & > div.image {
+      //margin-bottom: -10px;
+      max-height: 100px;
+      overflow: hidden;
+
+      img {
+        max-width: 100%;
+        width: auto;
+        height: auto;
+      }
+    }
+
+    div.title {
+      line-height: 0.75;
+      span.title {
+        font-size: 14px;
+      }
+      span.read-time {
+        margin-left: 5px;
+        font-size: 8px;
+        color: $light-color;
+        font-style: italic;
+      }
+    }
+
+    div.recommendation {
+      font-family: "Arial";
       margin-bottom: 5px;
+      padding-bottom: 5px;
 
-      & > div.image {
-        //margin-bottom: -10px;
-        max-height: 100px;
+      border-bottom: 1px solid $lowlight;
+
+      display: flex;
+      color: $light-color;
+      font-size: 10px;
+
+      div.image {
+        border: 1px solid $lowlight;
+        border-radius: 50%;
+        width: 20px;
+        min-width: 20px;
+        height: 20px;
+        min-height: 20px;
         overflow: hidden;
 
         img {
-          max-width: 100%;
-          width: auto;
+          position: relative;
+          top: -2px;
+          width: 100%;
           height: auto;
         }
       }
 
-      div.title {
-        line-height: 0.75;
-        span.title {
-          font-size: 14px;
-        }
-        span.read-time {
-          margin-left: 5px;
-          font-size: 8px;
-          color: $light-color;
-          font-style: italic;
-        }
-      }
-
-      div.recommendation {
-        font-family: "Arial";
-        margin-bottom: 5px;
-        padding-bottom: 5px;
-
-        border-bottom: 1px solid $lowlight;
-
+      div.attribution {
         display: flex;
-        color: $light-color;
-        font-size: 10px;
-
-        div.image {
-          border: 1px solid $lowlight;
-          border-radius: 50%;
-          width: 20px;
-          min-width: 20px;
-          height: 20px;
-          min-height: 20px;
-          overflow: hidden;
-
-          img {
-            position: relative;
-            top: -2px;
-            width: 100%;
-            height: auto;
-          }
-        }
-
-        div.attribution {
-          display: flex;
-          flex-direction: column;
-          margin-left: 5px;
-          justify-content: space-around;
-          line-height: 1;
-
-          .highlight {
-            font-weight: bold;
-            color: $logo-background;
-          }
-
-          .source {
-            color: $logo-background;
-          }
-        }
-      }
-
-      div.subtitle {
-        margin-top: 5px;
+        flex-direction: column;
+        margin-left: 5px;
+        justify-content: space-around;
         line-height: 1;
-        font-size: 12px;
-        color: $light-color;
-        font-style: italic;
+
+        .highlight {
+          font-weight: bold;
+          color: $logo-background;
+        }
+
+        .source {
+          color: $logo-background;
+        }
       }
+    }
+
+    div.subtitle {
+      margin-top: 5px;
+      line-height: 1;
+      font-size: 12px;
+      color: $light-color;
+      font-style: italic;
     }
   }
 
@@ -391,6 +391,13 @@ div.demo > div.demo-sizer > div.content {
         display: flex;
         align-items: center;
         padding: 10px;
+      }
+
+      div.center {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        color: $light-color;
       }
 
       div.right {
@@ -446,7 +453,7 @@ div.demo > div.demo-sizer > div.content {
       background: white;
       position: relative;
       padding: 10px;
-      line-height: 1;
+      line-height: 1.2;
       font-size: 16px;
 
       border-bottom: 1px solid $lowlight;
@@ -516,10 +523,10 @@ div.demo > div.demo-sizer > div.content {
         line-height: 40px;
 
         svg {
-          left: 0;
+          right: 0;
           position: absolute;
           height: 40px;
-          margin-left: 10px;
+          margin: 0 10px;
           color: $light-color;
         }
 
@@ -580,9 +587,11 @@ div.demo > div.demo-sizer > div.content {
             display: flex;
 
             & > button {
+              color: $logo-background;
               margin-left: auto;
               background: $lowlight;
-              padding: 10px;
+              padding: 10px 20px;
+              font-size: 16px;
             }
           }
         }
@@ -591,6 +600,99 @@ div.demo > div.demo-sizer > div.content {
 
     div.recommender.visible {
       bottom: 0;
+    }
+  }
+
+  div.chat {
+    background: white;
+    display: flex;
+    flex-direction: column;
+
+    div.messages {
+      flex: 1;
+      padding: 10px;
+
+      div.message {
+        position: relative;
+
+        div.picture {
+          position: absolute;
+          min-width: 50px;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          overflow: hidden;
+
+          img {
+            width: 100%;
+            height: auto;
+          }
+        }
+
+        &.left div.message-content {
+          padding: 35px 0 0 35px;
+
+          div.item {
+            background: rgba(0,0,0,0.1);
+          }
+        }
+
+        &.right {
+          div.picture {
+            right: 0;
+          }
+
+          div.message-content {
+            padding: 35px 35px 0 0;
+
+            div.text {
+              border-radius: 5px;
+              padding: 10px;
+              line-height: 1.2;
+              font-size: 16px;
+              background: $lowlight;
+              color: $logo-background;
+
+              div.blockquote {
+                border-left: 1px solid rgba(0,0,0,0.33);
+                margin-left: 4px;
+                padding-left: 6px;
+                color: rgba(0,0,0,0.33);
+                font-size: 14px;
+                font-style: italic;
+                margin-bottom: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    div.chat-bar {
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+
+      svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+
+        color: $light-color;
+        &.green {
+          color: $lowlight;
+        }
+      }
+
+      input {
+        line-height: 20px;
+        flex: 1;
+        border-radius: 20px;
+        padding: 5px;
+        background: rgba(0,0,0,0.05);
+        border: 1px solid $light-color;
+      }
     }
   }
 }
