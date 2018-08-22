@@ -20,6 +20,8 @@
 @import './home/home';
 @import './ErasmusApp';
 
+@import '../demo/Demo';
+
 $toc-width: 300px;
 $slide-margin: 20px;
 $slide-aspect-ratio: 4/3;
@@ -82,7 +84,7 @@ div#impress .step {
   padding: 0;
   opacity: 1;
 
-  div.logo {
+  & > div.slide.background > div.logo {
     padding: 20px;
     position: absolute;
     top: 0;
@@ -413,13 +415,29 @@ div#productIntro {
 
   div.demo {
     position: absolute;
-    right: 20px;
-    bottom: 60px;
-    height: 540px;
+    right: 0;
+    bottom: 20px;
+    height: 640px;
 
-    img {
+    & > img {
+      pointer-events: none;
       height: 100%;
       width: auto;
+    }
+
+    & > div.demo-sizer {
+      z-index: -1;
+      padding: 19px 20px 18px;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+
+      & > div.content {
+        border-radius: 28px;
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 }
@@ -435,9 +453,9 @@ div#pathToRevenue, div#failureModes, div#deepDive {
     div.title {
       opacity: 0.5;
     }
+
     div.bullet, div.sub-bullet {
       display: none;
-
     }
   }
 

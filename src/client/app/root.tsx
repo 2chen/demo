@@ -7,6 +7,7 @@ import {debounce, values} from "lodash";
 
 import "./components/bundle.scss";
 import {ErasmusDispatcher} from "./reducers/dispatcher";
+import {Demo} from "./demo/Demo";
 
 const {Impress, Step} = require("react-impressjs");
 
@@ -134,15 +135,20 @@ export class Root extends React.Component<any, RootState> {
     }
   };
 
-  private renderSlides = () => {
+  private checkUrlAndLoadSlide = () => {
+    // if impress isn't loaded but we have a slide ID, then the user reloaded the page
     if (!this.impress) {
       const match = window.location.hash.match(/^#\/?([^-]*)-?(.*)/) || [];
-      if (match[1]  ) {
+      if (match[1]) {
         setTimeout(() => {
           window.location.href = "#/" + match[1] + (match[2] ? `-${match[2]}` : "");
         }, 0);
       }
     }
+  }
+
+  private renderSlides = () => {
+    this.checkUrlAndLoadSlide();
 
     const {width, height} = this.state;
     this.stepContext = Object.assign({x: 0, y: 0}, this.state);
@@ -280,9 +286,7 @@ export class Root extends React.Component<any, RootState> {
                     </span>
                    </div>
                 </div>
-                <div className="demo">
-                  <img src="iphone.png" />
-                </div>
+                { this.state.slideId === tocData.productIntro.id && <Demo transitionId={this.state.transitionId!} /> }
               </div>
             </div>
           , this.state.transitionId! > 0 && this.state.transitionId! !== 3 ? "highlight" : ""),

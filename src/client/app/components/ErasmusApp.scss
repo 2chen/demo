@@ -50,30 +50,30 @@ div.app-container {
     flex-direction: column;
   }
 
-  div.logo {
-    background: $logo-background;
-    top: 0;
-    padding-top: 27px; //this is ghetto
-    color: white;
-    font-size: 30px;
-    font-family: 'Leitura News Roman 1';
-    width: 100%;
-    text-align: center;
-
-    div {
-      display: inline-block;
-    }
-
-    div.front {
-      color: $highlight;
-    }
-
-    div.back {
-      margin-left: 1px;
-      height: 35px;
-      border-bottom: 2px solid $highlight;
-    }
-  }
+  //div.logo {
+  //  background: $logo-background;
+  //  top: 0;
+  //  padding-top: 27px; //this is ghetto
+  //  color: white;
+  //  font-size: 30px;
+  //  font-family: 'Leitura News Roman 1';
+  //  width: 100%;
+  //  text-align: center;
+  //
+  //  div {
+  //    display: inline-block;
+  //  }
+  //
+  //  div.front {
+  //    color: $highlight;
+  //  }
+  //
+  //  div.back {
+  //    margin-left: 1px;
+  //    height: 35px;
+  //    border-bottom: 2px solid $highlight;
+  //  }
+  //}
 
   div.top-bar {
     width: 100%;
