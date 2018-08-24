@@ -261,7 +261,7 @@ export class Demo extends React.PureComponent<DemoProps> {
             { this.renderCathyMessage(
               renderFeedItem({
                 recommendation: renderAttribution({
-                  image: "https://upload.wikimedia.org/wikipedia/commons/b/b4/The_Atlantic_magazine_logo.svg",
+                  image: "https://www.theatlantic.com/favicon.ico",
                   author: "Robert H. Frank",
                   action: "published in",
                   source: "The Atlantic",

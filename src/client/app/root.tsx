@@ -308,7 +308,20 @@ export class Root extends React.Component<any, RootState> {
               <div className="title">Key Differentiators</div>
               <div className="section">
                 <div className="subsection landscape">
-
+                  <svg>
+                    <line x1={300} y1={0} x2={300} y2={300} />
+                    <line x1={0} y1={150} x2={600} y2={150} />
+                    <text x={310} y={20}>Social</text>
+                    <text x={310} y={295}>Personal</text>
+                    <text x={10} y={175}>Narrow Use Case</text>
+                    <text x={425} y={175}>Broad Use Case</text>
+                  </svg>
+                  <div className="bubble pocket"><img src="https://getpocket.com/favicon.ico" /></div>
+                  <div className="bubble goodreads"><img src="https://goodreads.com/favicon.ico" /></div>
+                  <div className="bubble letterboxd"><img src="https://letterboxd.com/" /></div>
+                  <div className="bubble reddit"><img src="https://reddit.com/favicon.ico" /></div>
+                  <div className="bubble pinterest"><img src="https://pinterest.com/favicon.ico" /></div>
+                  <div className="bubble twitter"><img src="https://twitter.com/favicon.ico" /></div>
                 </div>
               </div>
             </div>
